@@ -10,6 +10,8 @@ __[Requisitos Iniciais.xlsx](https://docs.google.com/document/d/18nx0kzo98G2zsqD
 
 ### __Casos de Uso__
 
+__[Diagrama de Casos de Uso](https://online.visual-paradigm.com/share.jsp?id=3535323435342d33)__
+
 __[Especificação de Casos de Uso.docx](https://docs.google.com/document/d/13oO1WqzuiQWyNQZG_5FredCWvx7t6u5Sdnj7LUlijdg/edit?usp=sharing)__
 
 __[Identificação dos Atores.xlsx](https://docs.google.com/spreadsheets/d/17SwyqZzf8Y2EGQ2pR6Ru8UEX3EXBh0M_8RDWphDdtw4/edit?usp=sharing)__
