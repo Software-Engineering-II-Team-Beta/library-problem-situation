@@ -15,3 +15,6 @@ __[Diagrama de Casos de Uso](https://online.visual-paradigm.com/share.jsp?id=353
 __[Especificação de Casos de Uso.docx](https://docs.google.com/document/d/13oO1WqzuiQWyNQZG_5FredCWvx7t6u5Sdnj7LUlijdg/edit?usp=sharing)__
 
 __[Identificação dos Atores.xlsx](https://docs.google.com/spreadsheets/d/17SwyqZzf8Y2EGQ2pR6Ru8UEX3EXBh0M_8RDWphDdtw4/edit?usp=sharing)__
+
+### __[Histórias de Usuário](https://docs.google.com/document/d/19vP7pgxlnMxnX0y3AGTtFSsHjx1qqG63O0DS5PKFUOg/edit?usp=sharing)__
+
