@@ -16,5 +16,9 @@ __[Especificação de Casos de Uso.docx](https://docs.google.com/document/d/13oO
 
 __[Identificação dos Atores.xlsx](https://docs.google.com/spreadsheets/d/17SwyqZzf8Y2EGQ2pR6Ru8UEX3EXBh0M_8RDWphDdtw4/edit?usp=sharing)__
 
-### __[Histórias de Usuário](https://docs.google.com/document/d/19vP7pgxlnMxnX0y3AGTtFSsHjx1qqG63O0DS5PKFUOg/edit?usp=sharing)__
+### __Histórias de Usuário__
+
+__[Histórias de Usuário](https://docs.google.com/document/d/19vP7pgxlnMxnX0y3AGTtFSsHjx1qqG63O0DS5PKFUOg/edit?usp=sharing)__
+
+__[Resultado do Planning Poker](https://drive.google.com/file/d/1VPpyaFoQ7XmL__wtK2bFRXb68pSYQX0A/view?usp=sharing)__
 
