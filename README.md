@@ -23,5 +23,9 @@ __[Histórias de Usuário](https://docs.google.com/document/d/19vP7pgxlnMxnX0y3A
 __[Resultado do Planning Poker](https://drive.google.com/file/d/1VPpyaFoQ7XmL__wtK2bFRXb68pSYQX0A/view?usp=sharing)__
 
 
+### __Daigramas__
+__[Diagrama de classes (em desenvolvimento)](https://online.visual-paradigm.com/share.jsp?id=3535323435342d36)__
+
+
 ### __Interface__
-__[Desing de interface (prototipação)](https://www.figma.com/file/vUhdTk6IyMiPGWSAgMDULF/ENG2-sistema-de-empr%C3%A9stimo-de-livros?node-id=0%3A1)__
+__[Design de interface - prototipação (em desenvolvimento)](https://www.figma.com/file/vUhdTk6IyMiPGWSAgMDULF/ENG2-sistema-de-empr%C3%A9stimo-de-livros?node-id=0%3A1)__
