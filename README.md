@@ -32,7 +32,7 @@ __[Design de interface - prototipação (em desenvolvimento)](https://www.figma.
 
 
 ## __Definições de projeto__
-- Trello: __[Dashboard)](https://trello.com/b/sJ8EhiHe/engsoft2)__
+- Trello: __[Dashboard](https://trello.com/b/sJ8EhiHe/engsoft2)__
 - Linguagem: Javascript
 - Front-end: react
 - Back-end: node.js
