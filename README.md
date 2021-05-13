@@ -29,3 +29,10 @@ __[Diagrama de classes (em desenvolvimento)](https://online.visual-paradigm.com/
 
 ### __Interface__
 __[Design de interface - prototipação (em desenvolvimento)](https://www.figma.com/file/vUhdTk6IyMiPGWSAgMDULF/ENG2-sistema-de-empr%C3%A9stimo-de-livros?node-id=0%3A1)__
+
+
+## __Definições de projeto__
+
+- Linguagem: Javascript
+- Front-end: react
+- Back-end: node.js
