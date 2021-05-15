@@ -1,0 +1,253 @@
+swagger: "2.0"
+info:
+  description: "API para implementação da plataforma de Engenharia de Software II"
+  version: "1.0.0"
+  title: "Engenharia de Software II"
+host: "localhost:8000"
+basePath: "/"
+tags:
+  - name: "Ping"
+    description: "Métodos de Conferência da API"
+  - name: "Auth"
+    description: "Métodos de Autenticação"
+  - name: "Users"
+    description: "Métodos para Gerenciamento de Usuários"
+schemes:
+  - "http"
+paths:
+  /:
+    get:
+      tags:
+        - "Ping"
+      summary: "Verifica se o servidor está ok"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Servidor está saudável"
+          schema:
+            $ref: "#/definitions/Ping"
+        "500":
+          description: "Servidor não está saudável"
+          schema:
+            $ref: "#/definitions/PingError"
+  /auth/currentUser:
+    get:
+      tags:
+        - "Auth"
+      summary: "Retorna o usuário que você está logado"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Usuário retornado com sucesso"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro ao procurar seu usuário"
+          schema:
+            $ref: "#/definitions/Error"
+  /auth/login:
+    post:
+      tags:
+        - "Auth"
+      summary: "Login no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Login"
+          in: "body"
+          description: "Email e senha para efetuar o Login"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        "200":
+          description: "Login feito com sucesso"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro no Login"
+          schema:
+            $ref: "#/definitions/Error"
+  /auth/logout:
+    post:
+      tags:
+        - "Auth"
+      summary: "Logout do sistema"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Logout feito com sucesso"
+        "500":
+          description: "Algum erro no Logout"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /users:
+    get:
+      tags:
+        - "Users"
+      summary: "Retorna Users do Sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Paginação"
+          in: "body"
+          description: "Paginação que será aplicada na lista de Users"
+          required: true
+          schema:
+            $ref: "#/definitions/Pagination"
+      responses:
+        "200":
+          description: "Users Disponíveis"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na busca de Users"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /users/{userId}:
+    get:
+      tags:
+        - "Users"
+      summary: "User buscada do Sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "userId"
+          in: "path"
+          description: "Id do User Buscado"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "User Buscado"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na busca da User"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /users/create:
+    post:
+      tags:
+        - "Users"
+      summary: "Criar um usuário no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Usuário"
+          in: "body"
+          description: "Informações do novo usuário que será criado"
+          required: true
+          schema:
+            $ref: "#/definitions/UserDetails"
+      responses:
+        "200":
+          description: "Usuário criado com sucesso"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na criação do usuário"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /users/{userId}/edit:
+    put:
+      tags:
+        - "Users"
+      summary: "Editar um usuário no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "userId"
+          in: "path"
+          description: "Id do usuário que vai ser editado"
+          required: true
+          type: string
+        - name: "Usuário"
+          in: "body"
+          description: "Informações novas para usuário que será editado"
+          required: true
+          schema:
+            $ref: "#/definitions/UserDetails"
+      responses:
+        "200":
+          description: "Usuário editado com sucesso"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na edição do usuário"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /users/{userId}/delete:
+    delete:
+      tags:
+        - "Users"
+      summary: "Deletar um usuário no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "userId"
+          in: "path"
+          description: "Id do usuário que será deletado"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Usuário deletado com sucesso"
+        "500":
+          description: "Algum erro na deleção do usuário"
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  Pagination:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+      numberPerPage:
+        type: "number"
+  Ping:
+    type: "object"
+    properties:
+      ok:
+        type: "boolean"
+  PingError:
+    type: "object"
+    properties:
+      ok:
+        type: "boolean"
+        default: false
+  Error:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      email:
+        type: "string"
+  UserDetails:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      senha:
+        type: "string"
