@@ -14,6 +14,19 @@ export interface Error {
 	error: string;
 }
 
+export interface Book {
+	id: string;
+	titulo: string;
+	autor: string;
+	id_dono: string;
+}
+
+
+export type NewBook = Pick<Book, Exclude<keyof Book, "id">>
+export interface Error {
+	error: string;
+}
+
 export interface Pagination {
 	token: string;
 	numberPerPage: number;
