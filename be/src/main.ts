@@ -12,17 +12,18 @@ import YAML = require("yamljs");
 import * as admin from "firebase-admin";
 
 // MARK: Types
-import {User} from "./types";
+import { User, NewUser } from "./types";
 
 // MARK: Regex
-import {emailRegex, passwordRegex, cpfRegex, addressRegex, phoneNumberRegex} from "./regex"
+import { emailRegex, passwordRegex, cpfRegex, addressRegex, phoneNumberRegex } from "./regex";
 
 // MARK: bcrypt
 import bcrypt = require("bcrypt");
+import { inspect } from "util";
 
 admin.initializeApp({
 	credential: admin.credential.cert(require("./fbpkey.json")),
-	databaseURL: "https://eng-soft-2021-default-rtdb.firebaseio.com/"
+	databaseURL: "https://eng-soft-2021-default-rtdb.firebaseio.com/",
 });
 
 // MARK: Implementation
@@ -50,65 +51,65 @@ app.get("/", async (req, res) => {
 	}
 });
 
-//Criar usuario
+// Criar usuario
+function validateNewUser(newUser: NewUser): string | null {
+	if (!emailRegex(newUser.email)) {
+		return "Email inserido não é válido.";
+	}
+
+	if (!passwordRegex(newUser.password)) {
+		return "Senha inserida não é válida.";
+	}
+
+	if (!cpfRegex(newUser.cpf)) {
+		return "CPF inserido não é válido.";
+	}
+
+	if (!addressRegex(newUser.address)) {
+		return "Endereço inserido não é válido";
+	}
+
+	if (!phoneNumberRegex(newUser.phoneNumber)) {
+		return "Número de telefone inserido não é válido";
+	}
+
+	return null;
+}
 app.post("/users/create", async (req, res) => {
-	const data: User = {
-		id: "", 
-		email: req.body.email, 
-		cpf: req.body.cpf, 
-		address: req.body.address, 
-		phoneNumber: req.body.phoneNumber, 
-		password: req.body.password
+	const newUser: NewUser = {
+		email: req.body.email,
+		cpf: req.body.cpf,
+		address: req.body.address,
+		phoneNumber: req.body.phoneNumber,
+		password: req.body.password,
 	};
-	//console.log(data);
 
-	if(!emailRegex(data.email)){
-		res.status(500).send({"error" : "Email inserido não é válido."});
-		return;
+	const errorValidateNewUser = validateNewUser(newUser);
+
+	if (!!errorValidateNewUser) {
+		res.status(400).send({ error: errorValidateNewUser });
 	}
 
-	if(!passwordRegex(data.password)){
-		res.status(500).send({"error" : "Senha inserida não é válida."});
-		return;
-	}
-
-	if(!cpfRegex(data.cpf)){
-		res.status(500).send({"error" : "CPF inserido não é válido."});
-		return;
-	}
-
-	if(!addressRegex(data.address)){
-		res.status(500).send({"error" : "Endereço inserido não é válido"});
-		return;
-	}
-
-	if(!phoneNumberRegex(data.phoneNumber)){
-		res.status(500).send({"error" : "Número de telefone inserido não é válido"});
-		return;
-	}
+	newUser.password = bcrypt.hashSync(newUser.password, 10);
 
 	try {
-		var db = admin.database();
-		var ref = db.ref();
-		var usersRef = ref.child("users");
-		var newUser = usersRef.push();
-		if(newUser.key != null)	data.id = newUser.key;
-		else throw true;
-		
-		const saltRounds = 10;
-		data.password = await new Promise((resolve, reject) => bcrypt.hash(data.password, saltRounds, (err, hash) => {
-			if(err) reject(err);
-			resolve(hash);
-		}));
-		newUser.set({
-			...data
-		});
-		res.send({
-			...data
-		});
+		const db = admin.database();
+		const ref = db.ref();
+		const usersRef = ref.child("users");
+		const newUserRef = usersRef.push();
 
-	} catch(err) {
-		console.log(err);
-		res.status(500).send({"error" : "Problema na criação de novo usuário."});
+		if (newUserRef.key === null) {
+			throw new Error("Chave de novo usuária não foi criada");
+		}
+
+		const user: User = {
+			...newUser,
+			id: newUserRef.key,
+		};
+
+		newUserRef.set(user);
+		res.send(user);
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
 	}
 });
