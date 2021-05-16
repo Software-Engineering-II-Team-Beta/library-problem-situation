@@ -8,6 +8,8 @@ export interface User {
 	password: string;
 }
 
+
+export type NewUser = Pick<User, Exclude<keyof User, "id">>
 export interface Error {
 	error: string;
 }
