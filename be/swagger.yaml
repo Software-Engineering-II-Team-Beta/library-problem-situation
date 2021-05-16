@@ -244,10 +244,25 @@ definitions:
         type: "string"
       email:
         type: "string"
+      password:
+        type: "string"
+      cpf:
+        type: "string"
+      address:
+        type: "string"
+      phoneNumber:
+        type: "string"
   UserDetails:
     type: "object"
     properties:
       email:
         type: "string"
-      senha:
+      password:
         type: "string"
+      cpf:
+        type: "string"
+      address:
+        type: "string"
+      phoneNumber:
+        type: "string"
+      

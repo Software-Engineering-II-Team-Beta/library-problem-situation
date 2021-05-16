@@ -12,6 +12,8 @@
 		"dev": "ts-node src/main.ts"
 	},
 	"dependencies": {
+		"@types/bcrypt": "^5.0.0",
+		"bcrypt": "^5.0.1",
 		"bcryptjs": "^2.4.3",
 		"cors": "^2.8.5",
 		"cpf": "^2.0.1",
