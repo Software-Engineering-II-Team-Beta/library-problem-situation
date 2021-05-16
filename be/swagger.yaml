@@ -12,6 +12,8 @@ tags:
     description: "Métodos de Autenticação"
   - name: "Users"
     description: "Métodos para Gerenciamento de Usuários"
+  - name: "Books"
+    description: "Métodos para Gerenciamento de Livros"
 schemes:
   - "http"
 paths:
@@ -247,7 +249,7 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "userId"
+        - name: "bookId"
           in: "path"
           description: "Id do livro Buscado"
           required: true
