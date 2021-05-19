@@ -1,0 +1,176 @@
+{
+	"defaultSeverity": "error",
+	"extends": [
+		"tslint:recommended",
+		"tslint-immutable",
+		"tslint-config-prettier",
+		"tslint-eslint-rules",
+		"tslint-microsoft-contrib/recommended",
+		"tslint-consistent-codestyle",
+		"tslint-sonarts",
+		"tslint-config-prettier"
+	],
+	"linterOptions": {
+		"exclude": [
+			"src/**/*.d.ts",
+			"node_modules/",
+			"src/test.ts",
+			"src/api.ts",
+			"src/types.ts",
+			"src/*/*/types.ts",
+			"src/**/types.ts",
+			"src/*/*/*/types.ts",
+			"src/*/*/*/*/types.ts",
+			"src/*/*/*/*/*/types.ts",
+			"src/*/api.ts",
+			"src/*/*/api.ts",
+			"src/**/api.ts",
+			"src/*/*/*/api.ts",
+			"src/*/*/*/*/api.ts",
+			"src/*/*/*/*/*/api.ts",
+			"src/client.ts",
+			"src/*/client.ts",
+			"src/*/*/client.ts",
+			"src/**/client.ts",
+			"src/*/*/*/client.ts",
+			"src/*/*/*/*/client.ts",
+			"src/*/*/*/*/*/client.ts",
+			"src/error.ts",
+			"src/*/error.ts",
+			"src/*/*/error.ts",
+			"src/**/error.ts",
+			"src/*/*/*/error.ts",
+			"src/*/*/*/*/error.ts",
+			"src/*/*/*/*/*/error.ts"
+		]
+	},
+	"rules": {
+		"array-type": {
+			"options": ["array-simple"]
+		},
+		"arrow-parens": true,
+		"arrow-return-shorthand": true,
+		"ban-ts-ignore": true,
+		"ban-types": {
+			"options": [
+				["Object", "Avoid using the `Object` type. Did you mean `object`?"],
+				[
+					"Function",
+					"Avoid using the `Function` type. Prefer a specific function type, like `() => void`."
+				],
+				["Boolean", "Avoid using the `Boolean` type. Did you mean `boolean`?"],
+				["Number", "Avoid using the `Number` type. Did you mean `number`?"],
+				["String", "Avoid using the `String` type. Did you mean `string`?"],
+				["Symbol", "Avoid using the `Symbol` type. Did you mean `symbol`?"]
+			]
+		},
+		"class-name": true,
+		"curly": true,
+		"cyclomatic-complexity": true,
+		"eofline": true,
+		"import-spacing": true,
+		"indent": [true, "tabs"],
+		"interface-name": {
+			"options": ["always-prefix"]
+		},
+		"interface-over-type-literal": true,
+		"max-line-length": [true, 300],
+		"member-access": true,
+		"member-ordering": false,
+		"new-parens": true,
+		"no-angle-bracket-type-assertion": true,
+		"prefer-array-literal": false,
+		"use-simple-attributes": false,
+		"no-consecutive-blank-lines": true,
+		"no-construct": true,
+		"no-useless-files": {
+			"severity": "warning"
+		},
+		"no-console": false,
+		"no-commented-code": {
+			"severity": "warning"
+		},
+		"no-collapsible-if": false,
+		"no-debugger": true,
+		"no-duplicate-super": true,
+		"no-empty": false,
+		"no-empty-interface": false,
+		"no-eval": true,
+		"no-identical-functions": false,
+		"no-invalid-this": true,
+		"no-hardcoded-credentials": false,
+		"function-name": false,
+		"no-nested-template-literals": false,
+		"no-suspicious-comment": {
+			"severity": "warning"
+		},
+		"no-shadowed-variable": true,
+		"no-string-literal": true,
+		"no-string-throw": true,
+		"no-switch-case-fall-through": true,
+		"no-trailing-whitespace": true,
+		"no-unnecessary-initializer": true,
+		"no-unsafe-finally": true,
+		"no-unused-expression": true,
+		"no-var-keyword": true,
+		"no-var-requires": true,
+		"object-literal-key-quotes": {
+			"options": ["consistent-as-needed"]
+		},
+		"react-this-binding-issue": false,
+		"export-name": false,
+		"import-name": false,
+		"match-default-export-name": true,
+		"no-relative-imports": false,
+		"object-literal-shorthand": true,
+		"object-literal-sort-keys": false,
+		"one-line": {
+			"options": [
+				"check-catch",
+				"check-else",
+				"check-finally",
+				"check-open-brace",
+				"check-whitespace"
+			]
+		},
+		"one-variable-per-declaration": {
+			"options": ["ignore-for-loop"]
+		},
+		"only-arrow-functions": {
+			"options": ["allow-declarations", "allow-named-functions"]
+		},
+		"ordered-imports": false,
+		"prefer-const": true,
+		"prefer-for-of": true,
+		"quotemark": {
+			"options": ["double", "avoid-escape"]
+		},
+		"semicolon": [true, "always", "ignore-bound-class-methods"],
+		"trailing-comma": {
+			"options": {
+				"multiline": "always",
+				"singleline": "never"
+			}
+		},
+		"prefer-type-cast": false,
+		"radix": false,
+		"triple-equals": true,
+		"typedef": true,
+		"typedef-whitespace": true,
+		"unified-signatures": true,
+		"use-isnan": true,
+		"variable-name": {
+			"options": ["ban-keywords", "check-format", "allow-pascal-case"]
+		},
+		"whitespace": {
+			"options": [
+				"check-branch",
+				"check-decl",
+				"check-operator",
+				"check-separator",
+				"check-type",
+				"check-typecast"
+			]
+		}
+	}
+}
