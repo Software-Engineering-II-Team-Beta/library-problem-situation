@@ -14,6 +14,12 @@ code {
 
 .content {
   padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
 }
 
 .header {
@@ -21,15 +27,48 @@ code {
   background: #edf2f4;
   border-bottom: 1px solid #999;
 }
+
 .header a {
   color: #0072ff;
   text-decoration: none;
   margin-left: 20px;
   margin-right: 5px;
 }
+
 .header a:hover {
   color: #666;
 }
+
 .header .active {
   color: #666;
+}
+
+input, h2, button {
+  padding: 10px;
+  margin: 10px;
+}
+
+.homepage {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  align-self: center;
+  width: inherit;
+}
+
+.searchbar {
+  width: 40vw
+}
+
+.registration {
+  background-color: #999;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column;
+  padding: 10px;
+  /* justify-content: space-around;
+  align-items: center; */
 }
