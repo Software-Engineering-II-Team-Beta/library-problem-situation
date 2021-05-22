@@ -11,8 +11,9 @@ import YAML = require("yamljs");
 // MARK: DB
 import * as admin from "firebase-admin";
 
-const users = require("./routes/users");
-const books = require("./routes/books");
+// MARK: Routes
+import { default as userRouter } from "./routes/users";
+import { default as booksRouter } from "./routes/books";
 
 admin.initializeApp({
 	credential: admin.credential.cert(require("./fbpkey.json")),
@@ -25,8 +26,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/users", users);
-app.use("/books", books);
+app.use("/users", userRouter);
+app.use("/books", booksRouter);
 
 const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -36,14 +37,19 @@ app.listen(port, () => {
 });
 
 // Ping
-app.get("/", async (req, res) => {
-	const db = admin.firestore();
+
+interface IPingResponse {
+	ok: boolean;
+}
+
+app.get("/", async (_, res: express.Response<IPingResponse>) => {
+	const db = admin.database();
 
 	try {
-		res.send((await db.collection("healthcheck").doc("ping").get()).data());
+		const pingSnapshot = await db.ref("ping").get();
+
+		res.send({ ok: pingSnapshot.val() });
 	} catch (err) {
 		res.status(500).send({ ok: false });
 	}
 });
-
-module.exports = app;

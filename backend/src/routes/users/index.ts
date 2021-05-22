@@ -1,8 +1,8 @@
 // MARK: Regex
-import { emailRegex, passwordRegex, cpfRegex, addressRegex, phoneNumberRegex } from "./../regex";
+import { emailRegex, passwordRegex, cpfRegex, addressRegex, phoneNumberRegex } from "../../regex";
 
 // MARK: Types
-import { User, NewUser } from "./../types";
+import { User, NewUser } from "../../types";
 
 // MARK: bcrypt
 import { inspect } from "util";
@@ -11,14 +11,17 @@ import bcrypt = require("bcrypt");
 // MARK: DB
 import * as admin from "firebase-admin";
 
-const express = require("express");
-let router = express.Router();
+import express = require("express");
+
+const router = express.Router();
 
 // Criar usuario
-function validateNewUser(newUser: NewUser): string | null {
+async function validateUserDetails(newUser: NewUser, userId: string | null = null): Promise<string | null> {
 	if (!emailRegex(newUser.email)) {
 		return "Email inserido não é válido.";
 	}
+
+	// TODO: Verify if another user is using the newUser.email
 
 	if (!passwordRegex(newUser.password)) {
 		return "Senha inserida não é válida.";
@@ -38,7 +41,20 @@ function validateNewUser(newUser: NewUser): string | null {
 
 	return null;
 }
-router.post("/create", async (req: { body: { email: any; cpf: any; address: any; phoneNumber: any; password: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { error: any; }): void; new(): any; }; }; send: (arg0: User) => void; }) => {
+
+interface ICreateUserRequestBody {
+	email: string;
+	cpf: string;
+	address: string;
+	phoneNumber: string;
+	password: string;
+}
+
+type ICreateUserResponseBody = {
+	error: string;
+} | User;
+
+router.post("/create", async (req: express.Request<{}, ICreateUserResponseBody, ICreateUserRequestBody>, res: express.Response<ICreateUserResponseBody>) => {
 	const newUser: NewUser = {
 		email: req.body.email,
 		cpf: req.body.cpf,
@@ -47,7 +63,7 @@ router.post("/create", async (req: { body: { email: any; cpf: any; address: any;
 		password: req.body.password,
 	};
 
-	const errorValidateNewUser = validateNewUser(newUser);
+	const errorValidateNewUser = await validateUserDetails(newUser);
 
 	if (!!errorValidateNewUser) {
 		res.status(400).send({ error: errorValidateNewUser });
@@ -77,4 +93,4 @@ router.post("/create", async (req: { body: { email: any; cpf: any; address: any;
 	}
 });
 
-module.exports = router;
+export default router;

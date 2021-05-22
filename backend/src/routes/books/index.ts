@@ -1,15 +1,14 @@
-
 // MARK: Types
-import { Book, NewBook } from "./../types";
+import { Book, NewBook } from "../../types";
 
 // MARK: bcrypt
 import { inspect } from "util";
 
-
 // MARK: DB
 import * as admin from "firebase-admin";
 
-const express = require("express");
+// MARK: Express
+import express = require("express");
 const router = express.Router();
 
 // Criar livro
@@ -22,14 +21,24 @@ function validatewNewBook(newBook: NewBook): string | null {
 		return "Descrição inserida não é válida.";
 	}
 
-
 	return null;
 }
-router.post("/create", async (req: { body: { titulo: any; autor: any; id_dono: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { error: any; }): void; new(): any; }; }; send: (arg0: Book) => void; }) => {
+
+interface ICreateBookRequestBody {
+	titulo: string;
+	autor: string;
+	id_dono: string;
+}
+
+type ICreateBookResponseBody = {
+	error: string;
+} | Book;
+
+router.post("/create", async (req: express.Request<{}, ICreateBookResponseBody, ICreateBookRequestBody>, res: express.Response<ICreateBookResponseBody>) => {
 	const newBook: NewBook = {
 		titulo: req.body.titulo,
 		autor: req.body.autor,
-        id_dono: req.body.id_dono
+		id_dono: req.body.id_dono,
 	};
 
 	const errorValidateNewBook = validatewNewBook(newBook);
@@ -37,8 +46,6 @@ router.post("/create", async (req: { body: { titulo: any; autor: any; id_dono: a
 	if (!!errorValidateNewBook) {
 		res.status(400).send({ error: errorValidateNewBook });
 	}
-
-
 
 	try {
 		const db = admin.database();
@@ -62,6 +69,4 @@ router.post("/create", async (req: { body: { titulo: any; autor: any; id_dono: a
 	}
 });
 
-
-
-module.exports = router;
+export default router;
