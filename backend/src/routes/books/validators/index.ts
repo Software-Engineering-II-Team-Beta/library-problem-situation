@@ -1,5 +1,5 @@
 // MARK: Types
-import { NewBook } from "../../types";
+import { NewBook } from "../../../types";
 
 // MARK: Methods
 export function validatewNewBook(newBook: NewBook): string | null {
