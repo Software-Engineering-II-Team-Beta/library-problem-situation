@@ -2,10 +2,10 @@
 import { isEmailValid, isPasswordValid, isCpfValid, isAddressValid, isPhoneNumberValid } from "../../validators";
 
 // MARK: Types
-import { NewUser } from "../../types";
+import { EditUser, NewUser } from "../../types";
 
 // MARK: Methods
-export async function validateUserDetails(newUser: NewUser, userId: string | null = null): Promise<string | null> {
+export async function validateUserDetails(newUser: NewUser | EditUser, userId: string | null = null): Promise<string | null> {
 	if (!isEmailValid(newUser.email)) {
 		return "Email inserido não é válido.";
 	}
@@ -20,16 +20,26 @@ export async function validateUserDetails(newUser: NewUser, userId: string | nul
 		return "Senha inserida não é válida.";
 	}
 
-	if (!isCpfValid(newUser.cpf)) {
-		return "CPF inserido não é válido.";
-	}
-
 	if (!isAddressValid(newUser.address)) {
 		return "Endereço inserido não é válido";
 	}
 
 	if (!isPhoneNumberValid(newUser.phoneNumber)) {
 		return "Número de telefone inserido não é válido";
+	}
+
+	return null;
+}
+
+export async function validateNewUserDetails(newUser: NewUser): Promise<string | null> {
+	const userDetailsError = await validateUserDetails(newUser, null);
+
+	if (!!userDetailsError) {
+		return userDetailsError;
+	}
+
+	if (!isCpfValid(newUser.cpf)) {
+		return "CPF inserido não é válido.";
 	}
 
 	return null;

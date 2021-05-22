@@ -23,7 +23,7 @@ type ICreateBookResponseBody = {
 	error: string;
 } | Book;
 
-router.post("/create", async (req: express.Request<{}, ICreateBookResponseBody, ICreateBookRequestBody>, res: express.Response<ICreateBookResponseBody>) => {
+router.post("/", async (req: express.Request<{}, ICreateBookResponseBody, ICreateBookRequestBody>, res: express.Response<ICreateBookResponseBody>) => {
 	const newBook: NewBook = {
 		titulo: req.body.titulo,
 		autor: req.body.autor,
@@ -34,6 +34,7 @@ router.post("/create", async (req: express.Request<{}, ICreateBookResponseBody, 
 
 	if (!!errorValidateNewBook) {
 		res.status(400).send({ error: errorValidateNewBook });
+		return;
 	}
 
 	try {

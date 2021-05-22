@@ -1,4 +1,4 @@
-
+// MARK: Types
 export interface User {
 	id: string;
 	email: string;
@@ -10,6 +10,7 @@ export interface User {
 
 
 export type NewUser = Pick<User, Exclude<keyof User, "id">>
+export type EditUser = Pick<User, Exclude<keyof NewUser, "cpf">>
 export interface Error {
 	error: string;
 }

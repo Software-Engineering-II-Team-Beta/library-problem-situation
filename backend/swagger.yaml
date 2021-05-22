@@ -141,7 +141,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /users/create:
+  /users:
     post:
       tags:
         - "Users"
@@ -165,8 +165,8 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /users/{userId}/edit:
-    put:
+  /users/{userId}:
+    patch:
       tags:
         - "Users"
       summary: "Editar um usuário no sistema"
@@ -194,7 +194,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /users/{userId}/delete:
+  /users/{userId}:
     delete:
       tags:
         - "Users"
@@ -213,7 +213,7 @@ paths:
         "500":
           description: "Algum erro na deleção do usuário"
           schema:
-            $ref: "#/definitions/Error"       
+            $ref: "#/definitions/Error"
 
   /books:
     get:
@@ -264,7 +264,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /books/create:
+  /books:
     post:
       tags:
         - "Books"
@@ -288,8 +288,8 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /books/{bookId}/edit:
-    put:
+  /books/{bookId}:
+    patch:
       tags:
         - "Books"
       summary: "Editar um livro no sistema"
@@ -317,7 +317,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /books/{bookId}/delete:
+  /books/{bookId}:
     delete:
       tags:
         - "Books"
@@ -413,5 +413,3 @@ definitions:
         type: "string"
       id_dono:
         type: "string"
-  
-      
