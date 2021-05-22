@@ -1,6 +1,8 @@
+// MARK: Libraries
 import validator from "validator";
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
 
+// MARK: Methods
 export function isEmailValid(email: string): boolean {
 	return validator.isEmail(email);
 }

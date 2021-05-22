@@ -16,26 +16,18 @@ import fbpKey = require("./fbpkey.json");
 import { default as userRouter } from "./routes/users";
 import { default as booksRouter } from "./routes/books";
 
+// MARK: Initialize Firebase
 admin.initializeApp({
 	credential: admin.credential.cert(fbpKey as admin.ServiceAccount),
 	...fbpKey,
 });
 
-// MARK: Implementation
-const port = 8000;
+// MARK: Express App
 const app = express();
 
+// MARK: Middlewares
 app.use(cors());
 app.use(express.json());
-app.use("/users", userRouter);
-app.use("/books", booksRouter);
-
-const swaggerDocument = YAML.load("./swagger.yaml");
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
-});
 
 // Ping
 interface IPingResponse {
@@ -52,4 +44,18 @@ app.get("/", async (_, res: express.Response<IPingResponse>) => {
 	} catch (err) {
 		res.status(500).send({ ok: false });
 	}
+});
+
+// MARK: Routes
+app.use("/users", userRouter);
+app.use("/books", booksRouter);
+
+// MARK: Swagger
+const swaggerDocument = YAML.load("./swagger.yaml");
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// MARK: Start Server
+const port = 8000;
+app.listen(port, () => {
+	console.log(`Server listening on port ${port}`);
 });
