@@ -104,9 +104,31 @@ router.patch("/:userId", async (req: express.Request<IEditUserRequestParams, IEd
 		const ref = db.ref("users");
 		const usersRef = ref.child(req.params.userId);
 
-		await usersRef.set(editUser);
+		await usersRef.update(editUser);
 
 		res.send((await usersRef.get()).val());
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+interface IEditUserRequestParams {
+	userId: string;
+}
+
+interface IDeleteUserResponseBody {
+	error: string;
+}
+
+router.delete("/:userId", async (req: express.Request<IEditUserRequestParams, IDeleteUserResponseBody, {}>, res: express.Response<IDeleteUserResponseBody>) => {
+	// TODO: Verify if currentUser is the same as userId
+
+	try {
+		const db = admin.database();
+		const ref = db.ref("users");
+		const usersRef = ref.child(req.params.userId);
+
+		await usersRef.update({ deletedAt: new Date() });
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}

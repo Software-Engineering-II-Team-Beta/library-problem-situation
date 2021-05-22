@@ -11,6 +11,7 @@ export async function validateUserDetails(newUser: NewUser | EditUser, userId: s
 	}
 
 	// TODO: Verify if another user is using the newUser.email
+	// Ignore deleted users (soft delete at deletedAt)
 	// const db = admin.database();
 	// const ref = db.ref();
 
