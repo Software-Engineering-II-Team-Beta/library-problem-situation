@@ -37,7 +37,6 @@ app.listen(port, () => {
 });
 
 // Ping
-
 interface IPingResponse {
 	ok: boolean;
 }
