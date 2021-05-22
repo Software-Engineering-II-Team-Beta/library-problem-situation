@@ -9,21 +9,10 @@ import * as admin from "firebase-admin";
 
 // MARK: Express
 import express = require("express");
+import { validatewNewBook } from "./validators";
 const router = express.Router();
 
-// Criar livro
-function validatewNewBook(newBook: NewBook): string | null {
-	if (!(newBook.titulo)) {
-		return "Título inserido não é válido.";
-	}
-
-	if (!(newBook.autor)) {
-		return "Descrição inserida não é válida.";
-	}
-
-	return null;
-}
-
+// MARK: Methods
 interface ICreateBookRequestBody {
 	titulo: string;
 	autor: string;
