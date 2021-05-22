@@ -1,3 +1,12 @@
+/* 
+colors
+#d9e0e6 - lightest gray
+#a9aeb3 - medium gray
+#484b4d - darkest gray
+#47bacb - light blue
+#197097 - dark blue
+*/
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -12,24 +21,101 @@ code {
     monospace;
 }
 
-.content {
+/* .content {
   padding: 20px;
-}
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
+} */
 
 .header {
   padding: 10px;
   background: #edf2f4;
   border-bottom: 1px solid #999;
 }
+
 .header a {
   color: #0072ff;
   text-decoration: none;
   margin-left: 20px;
   margin-right: 5px;
 }
+
 .header a:hover {
   color: #666;
 }
+
 .header .active {
   color: #666;
+}
+
+input, h2, button {
+  padding: 10px;
+  margin: 10px;
+  border: none;
+}
+
+.homepage {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  align-self: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.searchbar {
+  width: 40vw;
+  height: 30px;
+  background-color: #d9e0e6;
+  border: none;
+  border-radius: 5px;
+}
+
+.registration {
+  background-color: #197097;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column;
+  padding: 10px;
+  margin: 10px;
+  /* justify-content: space-around;
+  align-items: center; */
+}
+
+button.registration {
+  display: flex;
+  color: white;
+  background-color: #47bacb;
+  align-items: center;
+}
+
+button.registration:hover {
+  background-color: #37aabb;
+}
+
+.dashboard {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #484b4d;
+  width: 30%;
+  height: 100%;
+}
+
+.profilepicture {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: min-content;
+  padding: 20px;
+  padding-top: 100px;
 }
