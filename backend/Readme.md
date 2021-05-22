@@ -13,6 +13,11 @@ Durante o desenvolvimento você pode utilizar `yarn code-check` para fazer uma a
 
 Para rodar o projeto em desenvolvimento, basta rodar `yarn dev`
 
+### Testes
+
+Para executar os casos de teste, basta rodar `yarn test`.
+Este comando irá executar tanto os testes unitários como os testes de integração.
+
 ### Em produção
 
 Para rodar esse projeto em produção:
