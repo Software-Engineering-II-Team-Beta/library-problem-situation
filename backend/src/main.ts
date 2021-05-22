@@ -10,14 +10,15 @@ import YAML = require("yamljs");
 
 // MARK: DB
 import * as admin from "firebase-admin";
+import fbpKey = require("./fbpkey.json");
 
 // MARK: Routes
 import { default as userRouter } from "./routes/users";
 import { default as booksRouter } from "./routes/books";
 
 admin.initializeApp({
-	credential: admin.credential.cert(require("./fbpkey.json")),
-	databaseURL: "https://eng-soft-2021-default-rtdb.firebaseio.com/",
+	credential: admin.credential.cert(fbpKey as admin.ServiceAccount),
+	...fbpKey,
 });
 
 // MARK: Implementation

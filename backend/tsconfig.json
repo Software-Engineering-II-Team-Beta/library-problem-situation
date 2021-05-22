@@ -10,7 +10,8 @@
 		"strictNullChecks": true,
 		"skipLibCheck": true,
 		"module": "commonjs",
-		"jsx": "react"
+		"jsx": "react",
+		"resolveJsonModule": true
 	},
 	"include": [
 		"src/*.ts",
