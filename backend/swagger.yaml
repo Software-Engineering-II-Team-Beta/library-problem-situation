@@ -12,6 +12,8 @@ tags:
     description: "Métodos de Autenticação"
   - name: "Users"
     description: "Métodos para Gerenciamento de Usuários"
+  - name: "Books"
+    description: "Métodos para Gerenciamento de Livros"
 schemes:
   - "http"
 paths:
@@ -211,7 +213,131 @@ paths:
         "500":
           description: "Algum erro na deleção do usuário"
           schema:
+            $ref: "#/definitions/Error"       
+
+  /books:
+    get:
+      tags:
+        - "Books"
+      summary: "Retorna lista de livros do sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Paginação"
+          in: "body"
+          description: "Paginação que será aplicada na lista de livros"
+          required: true
+          schema:
+            $ref: "#/definitions/Pagination"
+      responses:
+        "200":
+          description: "Livros disponíveis"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Book"
+        "500":
+          description: "Algum erro na busca dos livros"
+          schema:
             $ref: "#/definitions/Error"
+
+  /books/{bookId}:
+    get:
+      tags:
+        - "Books"
+      summary: "Livro buscado do Sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "bookId"
+          in: "path"
+          description: "Id do livro Buscado"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Livro buscado"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na busca do livro"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /books/create:
+    post:
+      tags:
+        - "Books"
+      summary: "Criar um livro no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Usuário"
+          in: "body"
+          description: "Informações do novo livro que será criado"
+          required: true
+          schema:
+            $ref: "#/definitions/BookDetails"
+      responses:
+        "200":
+          description: "Livro criado com sucesso"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na criação do livro"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /books/{bookId}/edit:
+    put:
+      tags:
+        - "Books"
+      summary: "Editar um livro no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "bookId"
+          in: "path"
+          description: "Id do livro que vai ser editado"
+          required: true
+          type: string
+        - name: "Book"
+          in: "body"
+          description: "Informações novas para livro que será editado"
+          required: true
+          schema:
+            $ref: "#/definitions/BookDetails"
+      responses:
+        "200":
+          description: "Livrvo editado com sucesso"
+          schema:
+            $ref: "#/definitions/Book"
+        "500":
+          description: "Algum erro na edição do livro"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /books/{bookId}/delete:
+    delete:
+      tags:
+        - "Books"
+      summary: "Deletar um livro no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "bookId"
+          in: "path"
+          description: "Id do livro que será deletado"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Livro deletado com sucesso"
+        "500":
+          description: "Algum erro na deleção do livro"
+          schema:
+            $ref: "#/definitions/Error"
+                 
 
 definitions:
   Pagination:
@@ -265,4 +391,27 @@ definitions:
         type: "string"
       phoneNumber:
         type: "string"
+  Book:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      titulo:
+        type: "string"
+      autor:
+        type: "string"
+      id_dono:
+        type: "string"
+  BookDetails:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      titulo:
+        type: "string"
+      autor:
+        type: "string"
+      id_dono:
+        type: "string"
+  
       
