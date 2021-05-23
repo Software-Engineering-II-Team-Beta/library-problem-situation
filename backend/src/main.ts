@@ -13,9 +13,9 @@ import * as admin from "firebase-admin";
 import fbpKey = require("./fbpkey.json");
 
 // MARK: Routes
+import { default as authRouter } from "./routes/auth"
 import { default as userRouter } from "./routes/users";
 import { default as booksRouter } from "./routes/books";
-
 // MARK: Initialize Firebase
 admin.initializeApp({
 	credential: admin.credential.cert(fbpKey as admin.ServiceAccount),
@@ -47,9 +47,9 @@ app.get("/", async (_, res: express.Response<IPingResponse>) => {
 });
 
 // MARK: Routes
+app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/books", booksRouter);
-
 // MARK: Swagger
 const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

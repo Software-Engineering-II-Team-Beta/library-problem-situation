@@ -1,10 +1,10 @@
 // MARK: Types
 import { User, NewUser, EditUser } from "../../types";
 
-// MARK: bcrypt
+// MARK: bcrypt, jwt
 import { inspect } from "util";
 import bcrypt = require("bcrypt");
-
+import * as jwt from "../auth/jwt";
 // MARK: DB
 import * as admin from "firebase-admin";
 
@@ -21,10 +21,14 @@ interface ICreateUserRequestBody {
 	phoneNumber: string;
 	password: string;
 }
+interface ISuccesfulUserResponse {
+	user: User;
+	token: string;
+}
 
 type ICreateUserResponseBody = {
 	error: string;
-} | User;
+} | ISuccesfulUserResponse;
 
 router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreateUserRequestBody>, res: express.Response<ICreateUserResponseBody>) => {
 	const newUser: NewUser = {
@@ -59,8 +63,8 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 		};
 
 		await newUserRef.set(user);
-
-		res.send((await newUserRef.get()).val());
+		const userData:User = (await newUserRef.get()).val();
+		res.send({user:userData, token: jwt.sign(newUserRef.key)});
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
