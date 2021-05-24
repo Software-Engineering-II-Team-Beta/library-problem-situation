@@ -10,6 +10,10 @@ export interface Pagination {
 	numberPerPage: number;
 }
 
+export interface Ping {
+	ok: boolean;
+}
+
 // User
 export interface User {
 	id: string;

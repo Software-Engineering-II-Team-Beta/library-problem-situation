@@ -56,7 +56,13 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // MARK: Start Server
-const port = 8000;
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
+const startServer = async (port = 8000) => new Promise<void>((res) => {
+	app.listen(port, () => {
+		// eslint-disable-next-line no-console
+		console.log(`Server listening on port ${port}`);
+		res();
+	});
 });
+
+const startServerPromise = startServer();
+export default startServerPromise;
