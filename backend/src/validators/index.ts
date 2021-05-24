@@ -8,8 +8,7 @@ export function isEmailValid(email: string): boolean {
 }
 
 export function isPasswordValid(password: string): boolean {
-	const re = /^[A-Za-z0-9]{6,20}$/; // only alphanumeric passwords
-	return re.test(password);
+	return validator.isStrongPassword(password);
 }
 
 export function isCpfValid(cpf: string): boolean {
@@ -22,6 +21,5 @@ export function isAddressValid(address: string): boolean {
 }
 
 export function isPhoneNumberValid(phoneNumber: string): boolean {
-	const re = /^\+?\(?[0-9]{1,4}\)?[-\s\./0-9]{1,15}$/;
-	return re.test(phoneNumber);
+	return validator.isMobilePhone(phoneNumber);
 }
