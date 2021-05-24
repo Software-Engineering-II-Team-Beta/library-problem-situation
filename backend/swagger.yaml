@@ -44,7 +44,7 @@ paths:
         "200":
           description: "Usuário retornado com sucesso"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserWToken"
         "500":
           description: "Algum erro ao procurar seu usuário"
           schema:
@@ -72,7 +72,11 @@ paths:
         "200":
           description: "Login feito com sucesso"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserWToken"
+        "401":
+          description: "Erro de autenticação"
+          schema:
+            $ref: "#/definitions/Error"
         "500":
           description: "Algum erro no Login"
           schema:
@@ -377,6 +381,13 @@ definitions:
       address:
         type: "string"
       phoneNumber:
+        type: "string"
+  UserWToken:
+    type: "object"
+    properties:
+      user:
+          $ref: "#/definitions/User"
+      token:
         type: "string"
   UserDetails:
     type: "object"
