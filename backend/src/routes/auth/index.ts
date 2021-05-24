@@ -5,18 +5,33 @@ import bcrypt = require("bcrypt");
 import { User } from "../../types";
 const router = express.Router();
 
+export const decodeJwt = async (req: express.Request<{}>) => {
+    const authHeader = req.headers.authorization;
+    if(!authHeader){
+        throw new Error("Authorization header not defined");
+    }
+    const [, token] = authHeader.split(' ');
+    return jwt.verify(token);
+};
+
+export const getUserByEmail = async (email: string) : Promise<User> => {
+    const db = admin.database();
+    const ref = db.ref("users");
+    const query: Object | null | undefined  = (await ref.orderByChild("email").equalTo(email).limitToFirst(1).get()).val();
+    if(!query){
+        throw new Error("Email não cadastrado.");
+    }
+    return Object.values(query)[0];
+};
+
 export const authMiddleware = async (req: express.Request<{}>, res: express.Response<{}>, next: express.NextFunction) => {
     try{
-        const authHeader = req.headers.authorization;
-        if(!authHeader){
-            res.status(401).send({"error": "Authorization header not defined"});
-            return;
+        if(!!decodeJwt(req)){
+            next();
         }
-        const [, token] = authHeader.split(' ');
-        const decoded = jwt.verify(token);
-        if(decoded instanceof Object) req.body.jwt = {...decoded, token: token};
-        else req.body.jwt = {payload: decoded, iat: undefined, exp: undefined, token: token};
-        next();
+        else{
+            throw new Error("Couldn't decode jwt token correctly.");
+        }
     }
     catch (err){
         res.status(401).send({"error": err})
@@ -26,7 +41,6 @@ export const authMiddleware = async (req: express.Request<{}>, res: express.Resp
 interface ILoginRequestBody {
     email: string, 
     password: string;
-    jwt: jwt.jwtObject;
 }
 
 interface ISuccesfulLoginResponse {
@@ -38,22 +52,19 @@ type ILoginResponseBody = {
 	error: string;
 } | ISuccesfulLoginResponse;
 
-router.post("/login", authMiddleware, async (req: express.Request<{}, ILoginResponseBody, ILoginRequestBody>, res: express.Response<ILoginResponseBody>) => {
+router.post("/login", async (req: express.Request<{}, ILoginResponseBody, ILoginRequestBody>, res: express.Response<ILoginResponseBody>) => {
     try{
-        const email = req.body.email, password = bcrypt.hashSync(req.body.password, 10);
-        const db = admin.database();
-        const ref = db.ref("users/" + req.body.jwt.payload);
-        if(ref.child('email').equalTo(email) && ref.child('password').equalTo(password)){
-            const userData = (await ref.get()).val();
-            delete userData.id;
-            res.status(200).send({user: userData, token: req.body.jwt.token});
+        const email = req.body.email.trim(), password = req.body.password;
+        const user: User = await getUserByEmail(email);
+        if(!user || !bcrypt.compareSync(password, user.password)){
+            res.status(401).send({error: "Email e/ou senha incorretos"});
         }
         else{
-            res.status(500).send({error: "Comparison with database failed"});
+            res.status(200).send({ user, token: jwt.sign(user.id) });
         }
     }
     catch (err){
-        res.status(500).send({error:err});
+        res.status(500).send({ error:err });
     }
 });
 export default router;
