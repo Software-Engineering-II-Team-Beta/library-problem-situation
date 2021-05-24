@@ -1,7 +1,7 @@
 import * as jwt from "./jwt";
 import express = require("express");
 import bcrypt = require("bcrypt");
-import { User } from "../../types";
+import { IError, User } from "../../types";
 import { getDatabaseRef } from "../../database";
 const router = express.Router();
 
@@ -40,19 +40,17 @@ export const authMiddleware = async (req: express.Request<{}>, res: express.Resp
 	}
 };
 
-interface ILoginRequestBody {
+export interface ILoginRequestBody {
 	email: string;
 	password: string;
 }
 
-interface ISuccesfulLoginResponse {
+export interface ISuccesfulLoginResponse {
 	user: User;
 	token: string;
 }
 
-type ILoginResponseBody = {
-	error: string;
-} | ISuccesfulLoginResponse;
+export type ILoginResponseBody = IError | ISuccesfulLoginResponse;
 
 router.post("/login", async (req: express.Request<{}, ILoginResponseBody, ILoginRequestBody>, res: express.Response<ILoginResponseBody>) => {
 	try {
