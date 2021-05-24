@@ -4,7 +4,7 @@ import faker from "../../_test/faker";
 
 export function generateNewUser(): ICreateUserRequestBody {
 	return {
-		address: faker.address.streetAddress(),
+		address: "9080 Isabella Rodovia",
 		cpf: cpf.generate(),
 		email: faker.internet.email(),
 		password: faker.internet.password(),

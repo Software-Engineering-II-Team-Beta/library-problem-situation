@@ -44,7 +44,7 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 		return;
 	}
 
-	newUser.password = bcrypt.hashSync(newUser.password, 10);
+	newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync());
 
 	try {
 		const ref = getDatabaseRef("users");
