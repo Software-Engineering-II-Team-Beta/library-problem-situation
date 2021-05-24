@@ -10,7 +10,7 @@
 		"start": "node out/main.js",
 		"serve": "yarn build && yarn start",
 		"dev": "ts-node src/main.ts",
-		"test": "jest --no-cache"
+		"test": "jest --no-cache --coverage"
 	},
 	"dependencies": {
 		"@types/bcrypt": "^5.0.0",
