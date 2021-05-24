@@ -1,13 +1,23 @@
 // MARK: Database
-import { isPasswordValid } from ".";
+import { isEmailValid, isPasswordValid } from ".";
 
 // MARK: Implementation
-test("Check if small password is rejected", async (done) => {
-	expect(isPasswordValid("123")).toEqual(false);
-	done();
+describe("Test password validation", () => {
+	it("should reject small passwords", () => {
+		expect(isPasswordValid("123")).toEqual(false);
+	});
+
+	it("should accept password with 6 characters", () => {
+		expect(isPasswordValid("123456")).toEqual(true);
+	});
 });
 
-test("Check if 6 digits password is accepted", async (done) => {
-	expect(isPasswordValid("123456")).toEqual(true);
-	done();
+describe("Test email validation", () => {
+	it("should reject strings that are not emails", () => {
+		expect(isEmailValid("test")).toEqual(false);
+	});
+
+	it("should accept valid email strings", () => {
+		expect(isEmailValid("test@test.com")).toEqual(true);
+	});
 });
