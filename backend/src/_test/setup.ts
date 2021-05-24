@@ -1,7 +1,7 @@
 import startServerPromise from "../main";
 
 const setup = async (): Promise<void> => {
-  await startServerPromise;
+	await startServerPromise;
 };
 
 export default setup;

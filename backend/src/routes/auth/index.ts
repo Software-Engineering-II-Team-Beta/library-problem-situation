@@ -1,8 +1,8 @@
-import * as admin from "firebase-admin";
 import * as jwt from "./jwt";
 import express = require("express");
 import bcrypt = require("bcrypt");
 import { User } from "../../types";
+import { getDatabaseRef } from "../../database";
 const router = express.Router();
 
 export const decodeJwt = async (req: express.Request<{}>) => {
@@ -18,8 +18,7 @@ export const decodeJwt = async (req: express.Request<{}>) => {
 };
 
 export const getUserByEmail = async (email: string): Promise<User> => {
-	const db = admin.database();
-	const ref = db.ref("users");
+	const ref = getDatabaseRef("users");
 	const query: object | null | undefined  = (await ref.orderByChild("email").equalTo(email).limitToFirst(1).get()).val();
 
 	if (!query) {

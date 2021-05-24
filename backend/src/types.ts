@@ -1,16 +1,16 @@
 // MARK: Types
 
 // Common
-export interface Error {
+export interface IError {
 	error: string;
 }
 
-export interface Pagination {
+export interface IPagination {
 	token: string;
 	numberPerPage: number;
 }
 
-export interface Ping {
+export interface IPing {
 	ok: boolean;
 }
 
