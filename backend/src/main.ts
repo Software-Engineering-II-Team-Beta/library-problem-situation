@@ -13,9 +13,10 @@ import * as admin from "firebase-admin";
 import fbpKey = require("./fbpkey.json");
 
 // MARK: Routes
-import { default as authRouter } from "./routes/auth"
+import { default as authRouter } from "./routes/auth";
 import { default as userRouter } from "./routes/users";
 import { default as booksRouter } from "./routes/books";
+
 // MARK: Initialize Firebase
 admin.initializeApp({
 	credential: admin.credential.cert(fbpKey as admin.ServiceAccount),

@@ -63,8 +63,8 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 		};
 
 		await newUserRef.set(user);
-		const userData:User = (await newUserRef.get()).val();
-		res.send({user:userData, token: jwt.sign(newUserRef.key)});
+		const userData: User = (await newUserRef.get()).val();
+		res.send({user: userData, token: jwt.sign(newUserRef.key)});
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
