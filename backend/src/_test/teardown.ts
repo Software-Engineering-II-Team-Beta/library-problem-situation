@@ -1,4 +1,8 @@
-// eslint-disable-next-line no-process-exit
-const teardown = (): never => process.exit(0);
+import getTestId from "./testId";
+
+const teardown = (): void => {
+	console.log(`Ended test ${getTestId()}`);
+	process.exit(0);
+};
 
 export default teardown;
