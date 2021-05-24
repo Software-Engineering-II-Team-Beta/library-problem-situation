@@ -1,10 +1,10 @@
 // MARK: DB
 import * as admin from "firebase-admin";
-import testId from "./_test/testId";
+import getTestId from "./_test/testId";
 
 export function getDatabaseRef(ref: string = "") {
 	const database = admin.database();
-	const testPrefix = !!process.env.TEST ? `test/${testId}/` : "";
+	const testPrefix = !!process.env.TEST ? `test/${getTestId()}/` : "";
 
 	return database.ref(`${testPrefix}${ref}`);
 }
