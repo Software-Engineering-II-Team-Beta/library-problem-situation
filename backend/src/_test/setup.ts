@@ -1,12 +1,10 @@
 import startServerPromise from "../main";
+import getTestId from "./testId";
 
 const setup = async (): Promise<void> => {
 	await startServerPromise;
-	await new Promise<void>((res) => {
-		setTimeout(() => {
-			res();
-		}, 2000);
-	});
+
+	console.log(`Starting test ${getTestId()}`);
 };
 
 export default setup;
