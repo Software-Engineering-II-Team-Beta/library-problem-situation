@@ -245,7 +245,7 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "Usuário"
+        - name: "Livro"
           in: "body"
           description: "Informações do novo livro que será criado"
           required: true
@@ -255,7 +255,7 @@ paths:
         "200":
           description: "Livro criado com sucesso"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/Book"
         "500":
           description: "Algum erro na criação do livro"
           schema:
@@ -278,7 +278,7 @@ paths:
         "200":
           description: "Livro buscado"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/Book"
         "500":
           description: "Algum erro na busca do livro"
           schema:
@@ -303,7 +303,7 @@ paths:
             $ref: "#/definitions/BookDetails"
       responses:
         "200":
-          description: "Livrvo editado com sucesso"
+          description: "Livro editado com sucesso"
           schema:
             $ref: "#/definitions/Book"
         "500":
@@ -403,8 +403,6 @@ definitions:
   BookDetails:
     type: "object"
     properties:
-      id:
-        type: "string"
       titulo:
         type: "string"
       autor:
