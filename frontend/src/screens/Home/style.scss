@@ -1,0 +1,57 @@
+.homepage{
+    .searchbar {
+        width: 100%;
+        height: 50px;
+        background-color: #d9e0e6;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .content-home{
+        margin-top: 150px;
+        .title-home{
+            color: #197097;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+    
+        .banner{
+            width: 100%;
+        }
+    }
+    
+      
+    div.registration {
+        background-color: #197097;
+        border-radius: 5px;
+        display: flex;
+        flex-flow: column;
+        padding: 10px;
+        justify-content: space-around;
+        align-items: center;
+        width: 90%;
+        margin: auto;
+        margin-top: 80px;
+    
+        .d-flex{
+            input:first-child{
+                margin-right: 10px;
+            }
+        }
+    
+        button{
+            &.registration {
+                color: white;
+                background-color: #47bacb;
+                align-items: center;
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+    
+            &:hover {
+                background-color: #37aabb;
+            } 
+        }
+    }    
+}
+

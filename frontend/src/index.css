@@ -53,9 +53,12 @@ input, h2, button {
   padding: 10px;
   margin: 10px;
   border: none;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
-.homepage {
+/* .homepage {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -65,36 +68,7 @@ input, h2, button {
   width: 100vw;
   height: 100vh;
 }
-
-.searchbar {
-  width: 40vw;
-  height: 30px;
-  background-color: #d9e0e6;
-  border: none;
-  border-radius: 5px;
-}
-
-.registration {
-  background-color: #197097;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column;
-  padding: 10px;
-  margin: 10px;
-  /* justify-content: space-around;
-  align-items: center; */
-}
-
-button.registration {
-  display: flex;
-  color: white;
-  background-color: #47bacb;
-  align-items: center;
-}
-
-button.registration:hover {
-  background-color: #37aabb;
-}
+*/
 
 .dashboard {
   box-sizing: border-box;
