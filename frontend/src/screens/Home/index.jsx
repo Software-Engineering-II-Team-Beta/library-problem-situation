@@ -7,6 +7,9 @@ import * as SessionActions from '../../store/actions/session'
 import Banner from '../../assets/images/home/banner.png'
 import './style.scss'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+
 function Home() {
   const [email, set_email] = useState("");
   const [cpf, set_cpf] = useState("");
@@ -67,7 +70,10 @@ function Home() {
          <div className="content-home">
             <h1 className="mt-5 title-home">Sistema de empréstimo - MATA63</h1> 
             <img className="banner" src={Banner} alt="" srcset=""/>
-            <input placeholder="Busque um livro" className="searchbar" />
+            <form action="" method="get" className="d-flex form-search--home">
+              <input placeholder="Busque um livro" className="searchbar" />
+              <button className="btn" type="submit"><FontAwesomeIcon icon={faSearch} /></button>
+            </form>
          </div>
         </div>
 

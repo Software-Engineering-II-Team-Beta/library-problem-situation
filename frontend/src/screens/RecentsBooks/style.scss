@@ -1,0 +1,45 @@
+//BEM methodology
+
+.recents-books{
+    height: 100vh;
+    &--title{
+        display: flex;
+        flex-direction: column;
+        &::after{
+            content: "";
+            display: block;
+            width: 120px;
+            height: 5px;
+            margin-top: 10px;
+            background: #4A7B97;
+        }
+    }
+    &--list-books{
+        .form-search{
+            background: #D9E0E6;
+            height: 50px;
+            border-radius: 10px;
+            input{
+                background: transparent;
+                outline: none;
+            }
+
+            button{
+                width: 70px;
+                height: 45px;
+            }
+
+            svg{
+                height: 45px;
+                padding: 8px;
+                width: auto;
+                margin-top: -5px;
+            }
+        }
+    }
+
+    &--sidebar{
+
+    }
+}
+
