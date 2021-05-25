@@ -1,8 +1,10 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 
-function Dashboard() {
+import { useSelector } from 'react-redux'
 
+function Dashboard() {
+  const user = useSelector(state => state.session.user)
   const history = useHistory("");
 
   // event of logout button
@@ -51,7 +53,7 @@ function Dashboard() {
         <div className="profilepicture">
           <div style={greycircle}></div>
         </div>
-        <h2 style={h2style}> <div style={greencircle} /> Jane Doe</h2>
+        <h2 style={h2style}> <div style={greencircle} /> {user.name ? user.name : 'Jane Doe'}</h2>
         <h3 style={h3style} >Meus livros</h3>
         <div style={separator} />
         <h3 style={h3style} >Empréstimos</h3>

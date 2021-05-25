@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
+import { useSelector, useDispatch } from 'react-redux'
+import * as SessionActions from '../../store/actions/session'
+
 function Home() {
   const [email, set_email] = useState("");
   const [cpf, set_cpf] = useState("");
@@ -8,6 +11,12 @@ function Home() {
   const [phone, set_phone] = useState("");
   const [username, set_username] = useState("");
   const [password, set_password] = useState("");
+
+  const dispatch = useDispatch()
+
+  const setUser = (user) => {
+    dispatch(SessionActions.setUser(user))
+  }
 
   const history = useHistory("");
 
@@ -43,6 +52,7 @@ function Home() {
     };
     if (validate_login_info(info)) {
       // alguma coisa no backend
+
       history.push("/dashboard");
     }
   }
