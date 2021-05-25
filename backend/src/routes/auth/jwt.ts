@@ -1,12 +1,12 @@
 import jwt = require("jsonwebtoken");
 
-const JWT_SECRET_KEY = 'SqZ60qbcDJuxsgdSs1dzy6S2OAlWqomN';
+const JWT_SECRET_KEY = "SqZ60qbcDJuxsgdSs1dzy6S2OAlWqomN";
 
-export interface jwtObject {
-    payload: string;
-    iat: Number;
-    exp: Number;
-    token: string;
+export interface IJwtObject {
+	payload: string;
+	iat: number;
+	exp: number;
+	token: string;
 }
 
 export const sign = (payload: string) => jwt.sign({payload}, JWT_SECRET_KEY, { expiresIn: "7d" });

@@ -4,12 +4,10 @@ import { Book, NewBook } from "../../types";
 // MARK: bcrypt
 import { inspect } from "util";
 
-// MARK: DB
-import * as admin from "firebase-admin";
-
 // MARK: Express
 import express = require("express");
 import { validatewNewBook } from "./validators";
+import { getDatabaseRef } from "../../database";
 const router = express.Router();
 
 // MARK: Methods
@@ -38,8 +36,7 @@ router.post("/", async (req: express.Request<{}, ICreateBookResponseBody, ICreat
 	}
 
 	try {
-		const db = admin.database();
-		const ref = db.ref();
+		const ref = getDatabaseRef();
 		const bookRef = ref.child("books");
 		const newBookRef = bookRef.push();
 

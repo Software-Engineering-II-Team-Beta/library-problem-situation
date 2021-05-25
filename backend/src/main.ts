@@ -13,9 +13,11 @@ import * as admin from "firebase-admin";
 import fbpKey = require("./fbpkey.json");
 
 // MARK: Routes
-import { default as authRouter } from "./routes/auth"
+import { default as authRouter } from "./routes/auth";
 import { default as userRouter } from "./routes/users";
 import { default as booksRouter } from "./routes/books";
+import { getDatabaseRef } from "./database";
+
 // MARK: Initialize Firebase
 admin.initializeApp({
 	credential: admin.credential.cert(fbpKey as admin.ServiceAccount),
@@ -35,10 +37,14 @@ interface IPingResponse {
 }
 
 app.get("/", async (_, res: express.Response<IPingResponse>) => {
-	const db = admin.database();
-
 	try {
-		const pingSnapshot = await db.ref("ping").get();
+		const pingRef = getDatabaseRef("ping/");
+		let pingSnapshot = await pingRef.get();
+
+		if (!pingSnapshot.exists()) {
+			await pingRef.set(true);
+			pingSnapshot = await pingRef.get();
+		}
 
 		res.send({ ok: pingSnapshot.val() });
 	} catch (err) {
@@ -55,7 +61,13 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // MARK: Start Server
-const port = 8000;
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
+const startServer = async (port = 8000) => new Promise<void>((res) => {
+	app.listen(port, () => {
+		// eslint-disable-next-line no-console
+		console.log(`Server listening on port ${port}`);
+		res();
+	});
 });
+
+const startServerPromise = startServer();
+export default startServerPromise;
