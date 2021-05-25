@@ -1,13 +1,17 @@
 // MARK: Types
-import { Book, NewBook } from "../../types";
+import { Book, NewBook, EditBook } from "../../types";
 
 // MARK: bcrypt
 import { inspect } from "util";
 
+import * as jwt from "../auth/jwt";
+
 // MARK: Express
 import express = require("express");
-import { validatewNewBook } from "./validators";
+import { validatewNewBook, validateBookDetails } from "./validators";
 import { getDatabaseRef } from "../../database";
+
+import { IError } from "../../types";
 const router = express.Router();
 
 // MARK: Methods
@@ -17,9 +21,13 @@ interface ICreateBookRequestBody {
 	id_dono: string;
 }
 
-type ICreateBookResponseBody = {
-	error: string;
-} | Book;
+
+export interface ICreateBookSuccesfulResponse {
+	book: Book;
+	token: string;
+}
+
+export type ICreateBookResponseBody = IError | ICreateBookSuccesfulResponse;
 
 router.post("/", async (req: express.Request<{}, ICreateBookResponseBody, ICreateBookRequestBody>, res: express.Response<ICreateBookResponseBody>) => {
 	const newBook: NewBook = {
@@ -36,8 +44,10 @@ router.post("/", async (req: express.Request<{}, ICreateBookResponseBody, ICreat
 	}
 
 	try {
-		const ref = getDatabaseRef();
-		const bookRef = ref.child("books");
+		const ref = getDatabaseRef("books");
+		const bookRef = ref.push();
+
+
 		const newBookRef = bookRef.push();
 
 		if (newBookRef.key === null) {
@@ -50,10 +60,71 @@ router.post("/", async (req: express.Request<{}, ICreateBookResponseBody, ICreat
 		};
 
 		newBookRef.set(book);
-		res.send(book);
+		await newBookRef.set(book);
+		const bookData: Book = (await newBookRef.get()).val();
+		res.send({book: bookData, token: jwt.sign(newBookRef.key)});
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+interface IEditBookRequestParams {
+	bookId: string;
+}
+interface IEditBookRequestBody {
+	titulo: string;
+	autor: string;
+	id_dono: string;
+}
+
+
+type IEditBookResponseBody = IError | Book;
+
+router.patch("/:bookId", async (req: express.Request<IEditBookRequestParams, IEditBookResponseBody, IEditBookRequestBody>, res: express.Response<IEditBookResponseBody>) => {
+	const editBook: EditBook = {
+		titulo: req.body.titulo,
+		autor: req.body.autor,
+		id_dono: req.body.id_dono,
+	};
+
+	const errorValidateEditBook = await validateBookDetails(editBook, req.params.bookId);
+
+	if (!!errorValidateEditBook) {
+		res.status(400).send({ error: errorValidateEditBook });
+		return;
+	}
+
+
+
+	try {
+		const ref = getDatabaseRef("books");
+		const booksRef = ref.child(req.params.bookId);
+
+		await booksRef.update(editBook);
+
+		res.send((await booksRef.get()).val());
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+interface IEditBookRequestParams {
+	bookId: string;
+}
+
+type IDeleteBookResponseBody = IError;
+
+router.delete("/:bookId", async (req: express.Request<IEditBookRequestParams, IDeleteBookResponseBody, {}>, res: express.Response<IDeleteBookResponseBody>) => {
+	try {
+		const ref = getDatabaseRef("books");
+		const bookssRef = ref.child(req.params.bookId);
+
+		await bookssRef.update({ deletedAt: new Date() });
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
 });
 
 export default router;
+
+
