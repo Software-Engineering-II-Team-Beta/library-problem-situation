@@ -39,7 +39,36 @@
     }
 
     &--sidebar{
+        margin-top: 85px;
+        .recents-books{
+            &--title-categories{
+                height: 50px;
+                background: #A5A6F6;
+                border-radius: 15px;
+                padding: 10px;
+            }
+            &--categories{
+                margin-top: 10px;
+                background: #A5A6F6;
+                border-radius: 15px;
+                padding: 10px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
 
+                span{
+                    min-width: 90px;
+                    background: #4A7B97;
+                    border-radius: 15px;
+                    color: #fff;
+                    padding: 10px 15px;
+                    margin-bottom: 10px;
+                    margin-left: 10px;
+                    margin-right: 5px;
+                }
+
+            }
+        }
     }
 }
 
