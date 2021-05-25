@@ -37,3 +37,4 @@ export interface Book {
 }
 
 export type NewBook = Pick<Book, Exclude<keyof Book, "id">>
+export type EditBook = Pick<Book, Exclude<keyof NewBook, "id">>
