@@ -1,6 +1,6 @@
 // MARK: Database
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
-import { isCpfValid, isEmailValid, isPasswordValid, isPhoneNumberValid } from ".";
+import { isAddressValid, isCpfValid, isEmailValid, isPasswordValid, isPhoneNumberValid } from ".";
 import faker from "../_test/faker";
 
 // MARK: Implementation
@@ -50,5 +50,14 @@ describe("Test phone validation", () => {
 
 	it("should reject strings that are not phone numbers", () => {
 		expect(isPhoneNumberValid("")).toEqual(false);
+	});
+});
+
+describe("Test address validation", () => {
+	it("should accept valid addresses", () => {
+		expect(isAddressValid(faker.address.streetAddress(true))).toEqual(true);
+	});
+	it("should reject strings that is not an address", () => {
+		expect(isAddressValid("@home")).toEqual(false);
 	});
 });

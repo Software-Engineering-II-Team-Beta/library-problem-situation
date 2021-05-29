@@ -13,4 +13,15 @@ describe("Test auth routes", () => {
 		expect(response.user.cpf).toEqual(newUser.cpf);
 		expect(response.user.phoneNumber).toEqual(newUser.phoneNumber);
 	});
+	it("shouldn't be able to login", async () => {
+		const newUser = generateNewUser();
+		await createUser(newUser);
+		newUser.password += '1';
+		expect.assertions(1);
+		try{
+			const response = await login({ email: newUser.email, password: newUser.password });
+		} catch (err) {
+			expect(err).toEqual("Email e/ou senha incorretos");
+		}
+	});
 });

@@ -22,7 +22,7 @@ export const getUserByEmail = async (email: string): Promise<User> => {
 	const query: object | null | undefined  = (await ref.orderByChild("email").equalTo(email).limitToFirst(1).get()).val();
 
 	if (!query) {
-		throw new Error("Email não cadastrado.");
+		throw new Error("Email e/ou senha incorretos");
 	}
 
 	return Object.values(query)[0];

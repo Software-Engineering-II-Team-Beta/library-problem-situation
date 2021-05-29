@@ -15,7 +15,7 @@ import { IError } from "../../types";
 const router = express.Router();
 
 // MARK: Methods
-interface ICreateBookRequestBody {
+export interface ICreateBookRequestBody {
 	titulo: string;
 	autor: string;
 	id_dono: string;
