@@ -1,13 +1,17 @@
 // MARK: Types
 
 // Common
-export interface Error {
+export interface IError {
 	error: string;
 }
 
-export interface Pagination {
+export interface IPagination {
 	token: string;
 	numberPerPage: number;
+}
+
+export interface IPing {
+	ok: boolean;
 }
 
 // User
@@ -33,3 +37,4 @@ export interface Book {
 }
 
 export type NewBook = Pick<Book, Exclude<keyof Book, "id">>
+export type EditBook = Pick<Book, Exclude<keyof NewBook, "id">>

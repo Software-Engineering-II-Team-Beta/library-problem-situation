@@ -1,0 +1,74 @@
+//BEM methodology
+
+.recents-books{
+    height: 100vh;
+    &--title{
+        display: flex;
+        flex-direction: column;
+        &::after{
+            content: "";
+            display: block;
+            width: 120px;
+            height: 5px;
+            margin-top: 10px;
+            background: #4A7B97;
+        }
+    }
+    &--list-books{
+        .form-search{
+            background: #D9E0E6;
+            height: 50px;
+            border-radius: 10px;
+            input{
+                background: transparent;
+                outline: none;
+            }
+
+            button{
+                width: 70px;
+                height: 45px;
+            }
+
+            svg{
+                height: 45px;
+                padding: 8px;
+                width: auto;
+                margin-top: -5px;
+            }
+        }
+    }
+
+    &--sidebar{
+        margin-top: 85px;
+        .recents-books{
+            &--title-categories{
+                height: 50px;
+                background: #A5A6F6;
+                border-radius: 15px;
+                padding: 10px;
+            }
+            &--categories{
+                margin-top: 10px;
+                background: #A5A6F6;
+                border-radius: 15px;
+                padding: 10px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+
+                span{
+                    min-width: 90px;
+                    background: #4A7B97;
+                    border-radius: 15px;
+                    color: #fff;
+                    padding: 10px 15px;
+                    margin-bottom: 10px;
+                    margin-left: 10px;
+                    margin-right: 5px;
+                }
+
+            }
+        }
+    }
+}
+

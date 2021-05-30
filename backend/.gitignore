@@ -6,3 +6,6 @@ yarn-error.log
 # Build #
 .cache
 out/
+
+# Tests #
+coverage

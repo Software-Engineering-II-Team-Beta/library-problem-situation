@@ -7,6 +7,7 @@ import {
 // import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
 import Home from './screens/Home';
+import RecentsBooks from './screens/RecentsBooks';
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
           <div className="content">
             <Switch>
               <Route exact path="/" component={Home} />
-              {/* <Route path="/login" component={Login} /> */}
               <Route path="/dashboard" component={Dashboard} />
+              <Route path="/recents" component={RecentsBooks} />
             </Switch>
           </div>
         </div>

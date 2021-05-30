@@ -12,10 +12,9 @@ export async function validateUserDetails(newUser: NewUser | EditUser, userId: s
 
 	// TODO: Verify if another user is using the newUser.email
 	// Ignore deleted users (soft delete at deletedAt)
-	// const db = admin.database();
-	// const ref = db.ref();
+	// const usersRef = getDatabaseRef("users");
 
-	// ref.equalTo(newUser.email, "email")
+	// usersRef.equalTo(newUser.email, "email")
 
 	if (!isPasswordValid(newUser.password)) {
 		return "Senha inserida não é válida.";

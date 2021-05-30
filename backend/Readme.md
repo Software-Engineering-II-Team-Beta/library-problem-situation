@@ -2,6 +2,9 @@
 
 Durante o desenvolvimento você pode utilizar `yarn code-check` para fazer uma análise estática do código com [TSLint](https://www.npmjs.com/package/tslint) e [Typescript](https://www.typescriptlang.org)
 
+## Guidelines (NÃO PULE ESSA PARTE)
+
+1. Para criar referências para o banco, utilize `getDatabaseRef`, pois esse setup é utilizado na execução de testes de integração
 ## Links
 
 1. [HealthCheck](http://localhost:8000)

@@ -44,7 +44,7 @@ paths:
         "200":
           description: "Usuário retornado com sucesso"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserWToken"
         "500":
           description: "Algum erro ao procurar seu usuário"
           schema:
@@ -72,7 +72,11 @@ paths:
         "200":
           description: "Login feito com sucesso"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/UserWToken"
+        "401":
+          description: "Erro de autenticação"
+          schema:
+            $ref: "#/definitions/Error"
         "500":
           description: "Algum erro no Login"
           schema:
@@ -117,31 +121,6 @@ paths:
           description: "Algum erro na busca de Users"
           schema:
             $ref: "#/definitions/Error"
-
-  /users/{userId}:
-    get:
-      tags:
-        - "Users"
-      summary: "User buscada do Sistema"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "userId"
-          in: "path"
-          description: "Id do User Buscado"
-          required: true
-          type: "string"
-      responses:
-        "200":
-          description: "User Buscado"
-          schema:
-            $ref: "#/definitions/User"
-        "500":
-          description: "Algum erro na busca da User"
-          schema:
-            $ref: "#/definitions/Error"
-
-  /users:
     post:
       tags:
         - "Users"
@@ -166,6 +145,27 @@ paths:
             $ref: "#/definitions/Error"
 
   /users/{userId}:
+    get:
+      tags:
+        - "Users"
+      summary: "User buscada do Sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "userId"
+          in: "path"
+          description: "Id do User Buscado"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "User Buscado"
+          schema:
+            $ref: "#/definitions/User"
+        "500":
+          description: "Algum erro na busca da User"
+          schema:
+            $ref: "#/definitions/Error"
     patch:
       tags:
         - "Users"
@@ -193,8 +193,6 @@ paths:
           description: "Algum erro na edição do usuário"
           schema:
             $ref: "#/definitions/Error"
-
-  /users/{userId}:
     delete:
       tags:
         - "Users"
@@ -240,6 +238,28 @@ paths:
           description: "Algum erro na busca dos livros"
           schema:
             $ref: "#/definitions/Error"
+    post:
+      tags:
+        - "Books"
+      summary: "Criar um livro no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Livro"
+          in: "body"
+          description: "Informações do novo livro que será criado"
+          required: true
+          schema:
+            $ref: "#/definitions/BookDetails"
+      responses:
+        "200":
+          description: "Livro criado com sucesso"
+          schema:
+            $ref: "#/definitions/Book"
+        "500":
+          description: "Algum erro na criação do livro"
+          schema:
+            $ref: "#/definitions/Error"
 
   /books/{bookId}:
     get:
@@ -258,37 +278,11 @@ paths:
         "200":
           description: "Livro buscado"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/Book"
         "500":
           description: "Algum erro na busca do livro"
           schema:
             $ref: "#/definitions/Error"
-
-  /books:
-    post:
-      tags:
-        - "Books"
-      summary: "Criar um livro no sistema"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "Usuário"
-          in: "body"
-          description: "Informações do novo livro que será criado"
-          required: true
-          schema:
-            $ref: "#/definitions/BookDetails"
-      responses:
-        "200":
-          description: "Livro criado com sucesso"
-          schema:
-            $ref: "#/definitions/User"
-        "500":
-          description: "Algum erro na criação do livro"
-          schema:
-            $ref: "#/definitions/Error"
-
-  /books/{bookId}:
     patch:
       tags:
         - "Books"
@@ -309,15 +303,13 @@ paths:
             $ref: "#/definitions/BookDetails"
       responses:
         "200":
-          description: "Livrvo editado com sucesso"
+          description: "Livro editado com sucesso"
           schema:
             $ref: "#/definitions/Book"
         "500":
           description: "Algum erro na edição do livro"
           schema:
             $ref: "#/definitions/Error"
-
-  /books/{bookId}:
     delete:
       tags:
         - "Books"
@@ -337,7 +329,6 @@ paths:
           description: "Algum erro na deleção do livro"
           schema:
             $ref: "#/definitions/Error"
-                 
 
 definitions:
   Pagination:
@@ -378,6 +369,13 @@ definitions:
         type: "string"
       phoneNumber:
         type: "string"
+  UserWToken:
+    type: "object"
+    properties:
+      user:
+          $ref: "#/definitions/User"
+      token:
+        type: "string"
   UserDetails:
     type: "object"
     properties:
@@ -405,8 +403,6 @@ definitions:
   BookDetails:
     type: "object"
     properties:
-      id:
-        type: "string"
       titulo:
         type: "string"
       autor:

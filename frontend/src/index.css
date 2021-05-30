@@ -55,9 +55,12 @@ input, h2, button {
   padding: 10px;
   margin: 10px;
   border: none;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
-.homepage {
+/* .homepage {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -67,6 +70,7 @@ input, h2, button {
   width: 100vw;
   height: 100vh;
 }
+*/
 
 .left {
   display: flex;

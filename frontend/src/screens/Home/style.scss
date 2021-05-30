@@ -1,0 +1,83 @@
+.homepage{
+    .form-search--home{
+        background-color: #d9e0e6;
+        height: 50px;
+        width: 100%;
+        border-radius: 5px;
+        .searchbar {
+            border: none;
+        }
+
+        button{
+            width: 70px;
+            height: 45px;
+        }
+
+        input{
+            width: 80%;
+            background: transparent;
+            outline: none;
+        }
+
+        svg{
+            height: 45px;
+            padding: 8px;
+            width: auto;
+            margin-top: -5px;
+        }
+    }
+
+    .content-home{
+        margin-top: 150px;
+        .title-home{
+            color: #197097;
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+    
+        .banner{
+            width: 100%;
+        }
+    }
+    
+      
+    div.registration {
+        background-color: #197097;
+        border-radius: 5px;
+        display: flex;
+        flex-flow: column;
+        padding: 10px;
+        justify-content: space-around;
+        align-items: center;
+        width: 90%;
+        margin: auto;
+        margin-top: 80px;
+        
+        h2{
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .d-flex{
+            input:first-child{
+                margin-right: 10px;
+            }
+        }
+    
+        button{
+            &.registration {
+                color: white;
+                background-color: #47bacb;
+                align-items: center;
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+    
+            &:hover {
+                background-color: #37aabb;
+            } 
+        }
+    }    
+}
+

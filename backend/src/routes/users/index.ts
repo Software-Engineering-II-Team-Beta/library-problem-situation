@@ -5,30 +5,28 @@ import { User, NewUser, EditUser } from "../../types";
 import { inspect } from "util";
 import bcrypt = require("bcrypt");
 import * as jwt from "../auth/jwt";
-// MARK: DB
-import * as admin from "firebase-admin";
 
 import express = require("express");
 import { validateNewUserDetails, validateUserDetails } from "./validators";
+import { getDatabaseRef } from "../../database";
+import { IError } from "../../types";
 
 const router = express.Router();
 
 // MARK: Methods
-interface ICreateUserRequestBody {
+export interface ICreateUserRequestBody {
 	email: string;
 	cpf: string;
 	address: string;
 	phoneNumber: string;
 	password: string;
 }
-interface ISuccesfulUserResponse {
+export interface ICreateUserSuccesfulResponse {
 	user: User;
 	token: string;
 }
 
-type ICreateUserResponseBody = {
-	error: string;
-} | ISuccesfulUserResponse;
+export type ICreateUserResponseBody = IError | ICreateUserSuccesfulResponse;
 
 router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreateUserRequestBody>, res: express.Response<ICreateUserResponseBody>) => {
 	const newUser: NewUser = {
@@ -46,11 +44,10 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 		return;
 	}
 
-	newUser.password = bcrypt.hashSync(newUser.password, 10);
+	newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync());
 
 	try {
-		const db = admin.database();
-		const ref = db.ref("users");
+		const ref = getDatabaseRef("users");
 		const newUserRef = ref.push();
 
 		if (newUserRef.key === null) {
@@ -63,8 +60,8 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 		};
 
 		await newUserRef.set(user);
-		const userData:User = (await newUserRef.get()).val();
-		res.send({user:userData, token: jwt.sign(newUserRef.key)});
+		const userData: User = (await newUserRef.get()).val();
+		res.send({user: userData, token: jwt.sign(newUserRef.key)});
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
@@ -80,9 +77,7 @@ interface IEditUserRequestBody {
 	password: string;
 }
 
-type IEditUserResponseBody = {
-	error: string;
-} | User;
+type IEditUserResponseBody = IError | User;
 
 router.patch("/:userId", async (req: express.Request<IEditUserRequestParams, IEditUserResponseBody, IEditUserRequestBody>, res: express.Response<IEditUserResponseBody>) => {
 	const editUser: EditUser = {
@@ -104,8 +99,7 @@ router.patch("/:userId", async (req: express.Request<IEditUserRequestParams, IEd
 	// TODO: Verify if currentUser is the same as userId
 
 	try {
-		const db = admin.database();
-		const ref = db.ref("users");
+		const ref = getDatabaseRef("users");
 		const usersRef = ref.child(req.params.userId);
 
 		await usersRef.update(editUser);
@@ -120,16 +114,13 @@ interface IEditUserRequestParams {
 	userId: string;
 }
 
-interface IDeleteUserResponseBody {
-	error: string;
-}
+type IDeleteUserResponseBody = IError;
 
 router.delete("/:userId", async (req: express.Request<IEditUserRequestParams, IDeleteUserResponseBody, {}>, res: express.Response<IDeleteUserResponseBody>) => {
 	// TODO: Verify if currentUser is the same as userId
 
 	try {
-		const db = admin.database();
-		const ref = db.ref("users");
+		const ref = getDatabaseRef("users");
 		const usersRef = ref.child(req.params.userId);
 
 		await usersRef.update({ deletedAt: new Date() });
