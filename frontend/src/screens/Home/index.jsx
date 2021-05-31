@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
+import image from '../../assets/image1.png'
+
+import api from '../../services/api'
+
 import { useSelector, useDispatch } from 'react-redux'
 import * as SessionActions from '../../store/actions/session'
 
@@ -11,12 +15,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 function Home() {
-  const [email, set_email] = useState("");
-  const [cpf, set_cpf] = useState("");
-  const [address, set_address] = useState("");
-  const [phone, set_phone] = useState("");
-  const [username, set_username] = useState("");
-  const [password, set_password] = useState("");
+  const [signUpEmail, setsignUpEmail] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [username, setUsername] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
 
   const dispatch = useDispatch()
 
@@ -26,40 +32,66 @@ function Home() {
 
   const history = useHistory("");
 
-  function validate_registration_info(info) {
-    // alguma coisa com validação de dados
-    return true;
+  function validateSignUpData() { 
+    if(!!signUpEmail.trim() && 
+      !!cpf.trim() &&
+      !!address.trim() &&
+      !!phone.trim() &&
+      !!username.trim() &&
+      !!signUpPassword.trim()
+    ) return;
+
+    signUp()
   }
 
-  function validate_login_info(info) {
-    // alguma coisa com validação de dados
-    return true;
+  function validateSignInData() {
+    if(!!signInEmail.trim() && !!setSignInPassword.trim()) return;
+
+    signIn()
   }
 
-  function register() {
-    const info = {
-      email: email,
-      cpf: cpf,
-      address: address,
-      phone: phone,
-      username: username,
-      password: password,
-    };
-    if (validate_registration_info(info)) {
-      // alguma coisa no backend
+  async function signUp(formData) {
+    try {
+      const { data } = await api.post("auth/register", {
+        email: formData.signUpEmail,
+        cpf: formData.cpf,
+        address: formData.address,
+        phone: formData.phone,
+        username: formData.username,
+        password: formData.signUpPassword,
+      })
+
+      console.log(data)
+
       history.push("/dashboard");
+    } catch(error) {
+      console.log(error)
     }
   }
 
-  function login() {
-    const info = {
-      username: username,
-      password: password,
-    };
-    if (validate_login_info(info)) {
-      // alguma coisa no backend
+  async function signIn() {
+    try {
+      const { data } = await api.post("auth/login", {
+        email: signInEmail,
+        password: signInPassword
+      })
+
+      // const {
+      //   user,
+      //   token
+      // } = data
+
+      console.log(data)
 
       history.push("/dashboard");
+    } catch(error) {
+      console.log(error)
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        alert(error.response.data.error)
+      }
     }
   }
 
@@ -97,7 +129,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
