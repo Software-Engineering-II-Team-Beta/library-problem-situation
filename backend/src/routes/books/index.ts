@@ -125,6 +125,65 @@ router.delete("/:bookId", async (req: express.Request<IEditBookRequestParams, ID
 	}
 });
 
+
+
+router.get("/", async (req: express.Request, res: express.Response) => {
+	try {
+		const ref = getDatabaseRef("books");
+
+		const query  = (await ref.get());
+
+		const books: any[] = [];
+
+		query.forEach((book) => {
+			books.push(book);
+		})
+
+	
+		if (!query) {
+			throw new Error("Não foi possível encontra os livros.");
+		}
+
+
+		res.status(200).json(books);
+
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+router.get("/:bookId", async (req: express.Request, res: express.Response) => {
+	try {
+		const ref = getDatabaseRef("books");
+
+		const booksRef = ref.child(req.params.bookId);
+
+		const query  = (await booksRef.get());
+
+		const books: any[] = [];
+
+		query.forEach((book) => {
+			books.push(book);
+		})
+
+	
+		if (!query) {
+			throw new Error("Não foi possível encontra os livros.");
+		}
+
+
+		res.status(200).json(query);
+
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+
+
+
+
+
 export default router;
 
 
