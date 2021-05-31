@@ -5,7 +5,7 @@ import { IError, User } from "../../types";
 import { getDatabaseRef } from "../../database";
 const router = express.Router();
 
-export const decodeJwt = async (req: express.Request<{}>) => {
+export const decodeJwt = async (req: express.Request<{}>) : Promise<Object> => {
 	const authHeader = req.headers.authorization;
 
 	if (!authHeader) {
@@ -13,8 +13,11 @@ export const decodeJwt = async (req: express.Request<{}>) => {
 	}
 
 	const [, token] = authHeader.split(" ");
-
-	return jwt.verify(token);
+	let data = jwt.verify(token);
+	if(typeof data === 'string' || data instanceof String){
+		data = {payload: data};
+	}
+	return data;
 };
 
 export const getUserByEmail = async (email: string): Promise<User> => {

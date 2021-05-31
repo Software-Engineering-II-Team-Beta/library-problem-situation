@@ -38,3 +38,12 @@ export interface Book {
 
 export type NewBook = Pick<Book, Exclude<keyof Book, "id">>
 export type EditBook = Pick<Book, Exclude<keyof NewBook, "id">>
+
+export interface Group {
+	id: string;
+	nome: string;
+	members: {[id: string]: string};
+}
+
+export type NewGroup = Pick<Group, Exclude<keyof Group, "id">>
+export type EditGroup = Pick<Group, Exclude<keyof Group, "id">>
