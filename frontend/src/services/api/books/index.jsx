@@ -1,20 +1,20 @@
 import {client} from "../index";
 
-export async function _getBooks({token, numberPerPage}) {
+export async function _getBooks(data) {
   return await client.get("/books",
     {
-      token: token,
-      numberPerPage: numberPerPage
+      token: data.token,
+      numberPerPage: data.numberPerPage
     }
   );
 };
 
-export async function _createBook({titulo, autor, id_dono}) {
+export async function _createBook(data) {
   return await client.post("/books",
     {
-      titulo: titulo,
-      autor: autor,
-      id_dono: id_dono
+      titulo: data.titulo,
+      autor: data.autor,
+      id_dono: data.id_dono
     }
   );
 };
@@ -23,12 +23,12 @@ export async function _getBook(bookId) {
   return await client.get(`/books/${bookId}`, {});
 };
 
-export async function _patchBook(bookId, {titulo, autor, id_dono}) {
+export async function _patchBook(bookId, data) {
   return await client.patch(`/books/${bookId}`,
     {
-      titulo: titulo,
-      autor: autor,
-      id_dono: id_dono
+      titulo: data.titulo,
+      autor: data.autor,
+      id_dono: data.id_dono
     }
   );
 };
