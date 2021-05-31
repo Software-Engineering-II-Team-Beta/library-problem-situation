@@ -32,68 +32,75 @@ function Home() {
   const history = useHistory("");
 
   function validateSignUpData() {
-    if (!!signUpEmail.trim() &&
-      !!cpf.trim() &&
-      !!address.trim() &&
-      !!phoneNumber.trim() &&
-      !!signUpPassword.trim()
+    if (!signUpEmail.trim() &&
+      !cpf.trim() &&
+      !address.trim() &&
+      !phoneNumber.trim() &&
+      !signUpPassword.trim()
     ) return false;
     return true;
   }
 
   function validateSignInData() {
-    if (!!signInEmail.trim() && !!signInPassword.trim()) return false;
+    if (!signInEmail.trim() && !signInPassword.trim()) return false;
     return true;
   }
 
   async function signUp() {
-    // if (validateSignUpData()) {
-    try {
-      const ping = await api.ping();
-      console.log(ping);
-      const data = await api.users._createUser({
-        email: signUpEmail,
-        cpf: cpf,
-        address: address,
-        phoneNumber: phoneNumber,
-        password: signUpPassword,
-      });
+    if (validateSignUpData()) {
+      try {
+        const ping = await api.ping();
+        console.log(ping);
+        const data = await api.users._createUser({
+          email: signUpEmail,
+          cpf: cpf,
+          address: address,
+          phoneNumber: phoneNumber,
+          password: signUpPassword,
+        });
 
-      console.log(data);
+        console.log(data);
 
-      history.push("/dashboard");
-    } catch (error) {
-      console.log(error);
+        data = await api.auth._login({
+          email: signUpEmail,
+          password: signUpPassword,
+        });
+
+        console.log(data);
+
+        history.push("/dashboard");
+      } catch (error) {
+        console.log(error);
+      }
     }
-    // }
   }
 
   async function signIn() {
-    // if (validateSignInData()) {
-    try {
-      const data = await api.auth._login({
-        email: signInEmail,
-        password: signInPassword,
-      });
+    if (validateSignInData()) {
+      try {
+        const data = await api.auth._login({
+          email: signInEmail,
+          password: signInPassword,
+        });
 
-      // const {
-      //   user,
-      //   token
-      // } = data
+        // const {
+        //   user,
+        //   token
+        // } = data
 
-      console.log(data);
+        console.log(data);
 
-      history.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        alert(error.response.data.error);
+        history.push("/dashboard");
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          alert(error.response.data.error);
+        }
       }
     }
-    // }
   }
 
   return (
@@ -118,7 +125,6 @@ function Home() {
             <input placeholder="Endereço" value={address} onChange={(e) => setAddress(e.currentTarget.value)} />
             <input placeholder="Telefone" value={phoneNumber} onChange={(e) => setPhone(e.currentTarget.value)} />
             <div className="d-flex">
-              <input className="ml-2" placeholder="Email" value={signUpEmail} onChange={(e) => setsignUpEmail(e.currentTarget.value)} />
               <input placeholder="Senha" value={signUpPassword} onChange={(e) => setSignUpPassword(e.currentTarget.value)} type="password" />
             </div>
             <button className="registration" onClick={signUp}>cadastrar-se</button>
