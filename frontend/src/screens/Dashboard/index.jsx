@@ -1,15 +1,23 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux';
+
+import * as api from '../../services/api/index';
 
 function Dashboard() {
-  const user = useSelector(state => state.session.user)
+  const user = useSelector(state => state.session.user);
   const history = useHistory("");
 
   // event of logout button
-  const handleLogout = () => {
-    history.push('/');
+  async function handleLogout() {
+    try {
+      const data = await api.auth._logout();
+      console.log(data);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const h2style = {
