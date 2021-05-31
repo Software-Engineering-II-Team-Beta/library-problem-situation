@@ -4,11 +4,11 @@ export async function _currentUser() {
   return await client.get("/auth/currentUser", {});
 };
 
-export async function _login({email, password}) {
+export async function _login(data) {
   return await client.post("/auth/login",
     {
-      email: email,
-      password: password
+      email: data.email,
+      password: data.password
     }
   );
 };
