@@ -20,6 +20,14 @@ export const decodeJwt = async (req: express.Request<{}>) : Promise<Object> => {
 	return data;
 };
 
+export const getCurrentUserId = async (req: express.Request<{}>) : Promise<string> => {
+	const data = await decodeJwt(req);
+	if(!("payload" in data)){
+		return "";
+	}
+	return data['payload'] as string;
+}
+
 export const getUserByEmail = async (email: string): Promise<User> => {
 	const ref = getDatabaseRef("users");
 	const query: object | null | undefined  = (await ref.orderByChild("email").equalTo(email).limitToFirst(1).get()).val();
