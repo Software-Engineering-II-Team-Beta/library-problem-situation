@@ -58,13 +58,29 @@ function Home() {
         const ping = await api.ping();
         console.log(ping);
 
-        const data = await api.users._createUser({
+        const signUpData = await api.users._createUser({
           email: signUpEmail,
           cpf: cpf,
           address: address,
           phoneNumber: phoneNumber,
           password: signUpPassword,
         });
+
+        console.log(signUpData);
+
+        const signInData = await api.auth._login({
+          email: signUpEmail,
+          password: signUpPassword,
+        });
+
+        const { user, token } = signInData;
+
+        setUser(user);
+        setToken(token);
+
+        console.log(signInData);
+
+        history.push("/dashboard");
       } catch (error) {
         console.log(error);
       }
