@@ -80,4 +80,19 @@ router.post("/login", async (req: express.Request<{}, ILoginResponseBody, ILogin
 	}
 });
 
+export type ICurrentUserResponseBody = ILoginResponseBody;
+
+router.get("/currentUser", authMiddleware, async (req: express.Request<{}>, res: express.Response<ICurrentUserResponseBody>) => {
+	try {
+		const usersRef = getDatabaseRef("users");
+		const userId = await getCurrentUserId(req);
+		const user: User = (await usersRef.child(userId).get()).val();
+		console.log(user);
+		res.status(200).send({ user, token: jwt.sign(user.id)});
+		
+	} catch (err) {
+		res.status(500).send({ error: err });
+	}
+});
+
 export default router;
