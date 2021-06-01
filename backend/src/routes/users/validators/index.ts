@@ -1,8 +1,8 @@
 // MARK: Validators
-import { isEmailValid, isPasswordValid, isCpfValid, isAddressValid, isPhoneNumberValid } from "../../../validators";
+import {isEmailValid, isPasswordValid, isCpfValid, isAddressValid, isPhoneNumberValid} from "../../../validators";
 
 // MARK: Types
-import { EditUser, NewUser } from "../../../types";
+import {EditUser, NewUser} from "../../../types";
 
 // MARK: Methods
 export async function validateUserDetails(newUser: NewUser | EditUser, userId: string | null = null): Promise<string | null> {
@@ -16,9 +16,9 @@ export async function validateUserDetails(newUser: NewUser | EditUser, userId: s
 
 	// usersRef.equalTo(newUser.email, "email")
 
-	if (!isPasswordValid(newUser.password)) {
-		return "Senha inserida não é válida.";
-	}
+	// if (!isPasswordValid(newUser.password)) {
+	// 	return "Senha inserida não é válida.";
+	// }
 
 	if (!isAddressValid(newUser.address)) {
 		return "Endereço inserido não é válido";
