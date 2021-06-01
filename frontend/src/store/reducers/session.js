@@ -10,13 +10,11 @@ export default function session(state = initialState, action) {
         ...state,
         token: action.token,
       };
-
     case "SET_USER":
       return {
         ...state,
         user: action.user,
       };
-      
     default:
       return state;
   }
