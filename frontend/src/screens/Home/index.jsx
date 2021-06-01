@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
 
 // import image from '../../assets/images/home/banner.png';
 
 import * as api from "../../services/api/index";
 
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import * as SessionActions from "../../store/actions/session";
 
 import Banner from "../../assets/images/home/banner.png";
 import "./style.scss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const [signUpEmail, setsignUpEmail] = useState("");
@@ -56,9 +56,9 @@ function Home() {
     if (validateSignUpData()) {
       try {
         const ping = await api.ping();
-        console.log(ping);
+        // console.log(ping);
 
-        const signUpData = await api.users._createUser({
+        const {data} = await api.users._createUser({
           email: signUpEmail,
           cpf: cpf,
           address: address,
@@ -66,17 +66,19 @@ function Home() {
           password: signUpPassword,
         });
 
-        console.log(signUpData);
+        console.log(data);
 
-        const signInData = await api.auth._login({
+        const {data: signInData} = await api.auth._login({
           email: signUpEmail,
           password: signUpPassword,
         });
 
-        const { user, token } = signInData;
+        const {user, token} = signInData;
+        console.log(signInData);
 
         setUser(user);
         setToken(token);
+        console.log(user, token);
 
         console.log(signInData);
 
@@ -90,12 +92,14 @@ function Home() {
   async function signIn() {
     if (validateSignInData()) {
       try {
-        const data = await api.auth._login({
+        const {data} = await api.auth._login({
           email: signInEmail,
           password: signInPassword,
         });
 
-        const { user, token } = data;
+        console.log(data);
+        const {user, token} = data;
+        console.log(user, token);
 
         setUser(user);
         setToken(token);
@@ -103,12 +107,12 @@ function Home() {
         history.push("/dashboard");
       } catch (error) {
         console.log(error);
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          alert(error.response.data.error);
-        }
+        // if (error.response) {
+        //   // The request was made and the server responded with a status code
+        //   // that falls out of the range of 2xx
+        //   console.log(error.response.data);
+        //   alert(error.response.data.error);
+        // }
       }
     }
   }
@@ -152,20 +156,12 @@ function Home() {
               value={phoneNumber}
               onChange={(e) => setPhone(e.currentTarget.value)}
             />
-            <div className="d-flex">
-              <input
-                className="ml-2"
-                placeholder="Email"
-                value={signUpEmail}
-                onChange={(e) => setsignUpEmail(e.currentTarget.value)}
-              />
-              <input
-                placeholder="Senha"
-                value={signUpPassword}
-                onChange={(e) => setSignUpPassword(e.currentTarget.value)}
-                type="password"
-              />
-            </div>
+            <input
+              placeholder="Senha"
+              value={signUpPassword}
+              onChange={(e) => setSignUpPassword(e.currentTarget.value)}
+              type="password"
+            />
             <button className="registration" onClick={signUp}>
               cadastrar-se
             </button>
