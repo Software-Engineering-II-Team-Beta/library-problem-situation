@@ -1,22 +1,20 @@
 const initialState = {
-  isLoggedIn: false,
+  token: undefined,
   user: {},
 };
 
 export default function session(state = initialState, action) {
   switch (action.type) {
-    case "SET_LOGGED_IN":
+    case "SET_TOKEN":
       return {
         ...state,
-        isLoggedIn: action.isLoggedIn,
+        token: action.token,
       };
-
     case "SET_USER":
       return {
         ...state,
         user: action.user,
       };
-      
     default:
       return state;
   }

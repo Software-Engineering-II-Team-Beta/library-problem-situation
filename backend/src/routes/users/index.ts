@@ -1,15 +1,15 @@
 // MARK: Types
-import { User, NewUser, EditUser } from "../../types";
+import {User, NewUser, EditUser} from "../../types";
 
 // MARK: bcrypt, jwt
-import { inspect } from "util";
+import {inspect} from "util";
 import bcrypt = require("bcrypt");
 import * as jwt from "../auth/jwt";
 
 import express = require("express");
-import { validateNewUserDetails, validateUserDetails } from "./validators";
-import { getDatabaseRef } from "../../database";
-import { IError } from "../../types";
+import {validateNewUserDetails, validateUserDetails} from "./validators";
+import {getDatabaseRef} from "../../database";
+import {IError} from "../../types";
 
 const router = express.Router();
 
@@ -40,7 +40,8 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 	const errorValidateNewUser = await validateNewUserDetails(newUser);
 
 	if (!!errorValidateNewUser) {
-		res.status(400).send({ error: errorValidateNewUser });
+		console.log(errorValidateNewUser);
+		res.status(400).send({error: errorValidateNewUser});
 		return;
 	}
 
@@ -63,7 +64,7 @@ router.post("/", async (req: express.Request<{}, ICreateUserResponseBody, ICreat
 		const userData: User = (await newUserRef.get()).val();
 		res.send({user: userData, token: jwt.sign(newUserRef.key)});
 	} catch (err) {
-		res.status(500).send({ error: err.message || inspect(err) });
+		res.status(500).send({error: err.message || inspect(err)});
 	}
 });
 
@@ -90,7 +91,7 @@ router.patch("/:userId", async (req: express.Request<IEditUserRequestParams, IEd
 	const errorValidateEditUser = await validateUserDetails(editUser, req.params.userId);
 
 	if (!!errorValidateEditUser) {
-		res.status(400).send({ error: errorValidateEditUser });
+		res.status(400).send({error: errorValidateEditUser});
 		return;
 	}
 
@@ -106,7 +107,7 @@ router.patch("/:userId", async (req: express.Request<IEditUserRequestParams, IEd
 
 		res.send((await usersRef.get()).val());
 	} catch (err) {
-		res.status(500).send({ error: err.message || inspect(err) });
+		res.status(500).send({error: err.message || inspect(err)});
 	}
 });
 
@@ -123,9 +124,9 @@ router.delete("/:userId", async (req: express.Request<IEditUserRequestParams, ID
 		const ref = getDatabaseRef("users");
 		const usersRef = ref.child(req.params.userId);
 
-		await usersRef.update({ deletedAt: new Date() });
+		await usersRef.update({deletedAt: new Date()});
 	} catch (err) {
-		res.status(500).send({ error: err.message || inspect(err) });
+		res.status(500).send({error: err.message || inspect(err)});
 	}
 });
 

@@ -1,65 +1,119 @@
-import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
 
-import { useSelector, useDispatch } from 'react-redux'
-import * as SessionActions from '../../store/actions/session'
+// import image from '../../assets/images/home/banner.png';
 
-import Banner from '../../assets/images/home/banner.png'
-import './style.scss'
+import * as api from "../../services/api/index";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import {useDispatch} from "react-redux";
+import * as SessionActions from "../../store/actions/session";
+
+import Banner from "../../assets/images/home/banner.png";
+import "./style.scss";
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
-  const [email, set_email] = useState("");
-  const [cpf, set_cpf] = useState("");
-  const [address, set_address] = useState("");
-  const [phone, set_phone] = useState("");
-  const [username, set_username] = useState("");
-  const [password, set_password] = useState("");
+  const [signUpEmail, setsignUpEmail] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhone] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const setUser = (user) => {
-    dispatch(SessionActions.setUser(user))
-  }
+    dispatch(SessionActions.setUser(user));
+  };
+
+  const setToken = (token) => {
+    dispatch(SessionActions.setToken(token));
+  };
 
   const history = useHistory("");
 
-  function validate_registration_info(info) {
-    // alguma coisa com validação de dados
+  function validateSignUpData() {
+    if (
+      !signUpEmail.trim() &&
+      !cpf.trim() &&
+      !address.trim() &&
+      !phoneNumber.trim() &&
+      !signUpPassword.trim()
+    )
+      return false;
     return true;
   }
 
-  function validate_login_info(info) {
-    // alguma coisa com validação de dados
+  function validateSignInData() {
+    if (!signInEmail.trim() && !signInPassword.trim()) return false;
     return true;
   }
 
-  function register() {
-    const info = {
-      email: email,
-      cpf: cpf,
-      address: address,
-      phone: phone,
-      username: username,
-      password: password,
-    };
-    if (validate_registration_info(info)) {
-      // alguma coisa no backend
-      history.push("/dashboard");
+  async function signUp() {
+    if (validateSignUpData()) {
+      try {
+        const ping = await api.ping();
+        // console.log(ping);
+
+        const {data} = await api.users._createUser({
+          email: signUpEmail,
+          cpf: cpf,
+          address: address,
+          phoneNumber: phoneNumber,
+          password: signUpPassword,
+        });
+
+        console.log(data);
+
+        const {data: signInData} = await api.auth._login({
+          email: signUpEmail,
+          password: signUpPassword,
+        });
+
+        const {user, token} = signInData;
+        console.log(signInData);
+
+        setUser(user);
+        setToken(token);
+        console.log(user, token);
+
+        console.log(signInData);
+
+        history.push("/dashboard");
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
-  function login() {
-    const info = {
-      username: username,
-      password: password,
-    };
-    if (validate_login_info(info)) {
-      // alguma coisa no backend
+  async function signIn() {
+    if (validateSignInData()) {
+      try {
+        const {data} = await api.auth._login({
+          email: signInEmail,
+          password: signInPassword,
+        });
 
-      history.push("/dashboard");
+        console.log(data);
+        const {user, token} = data;
+        console.log(user, token);
+
+        setUser(user);
+        setToken(token);
+
+        history.push("/dashboard");
+      } catch (error) {
+        console.log(error);
+        // if (error.response) {
+        //   // The request was made and the server responded with a status code
+        //   // that falls out of the range of 2xx
+        //   console.log(error.response.data);
+        //   alert(error.response.data.error);
+        // }
+      }
     }
   }
 
@@ -67,37 +121,70 @@ function Home() {
     <div className="container homepage">
       <div className="row">
         <div className="col-12 col-md-6">
-         <div className="content-home">
-            <h1 className="mt-5 title-home">Sistema de empréstimo - MATA63</h1> 
-            <img className="banner" src={Banner} alt="" srcset=""/>
+          <div className="content-home">
+            <h1 className="mt-5 title-home">Sistema de empréstimo - MATA 63</h1>
+            <img className="banner" src={Banner} alt="" />
             <form action="" method="get" className="d-flex form-search--home">
               <input placeholder="Busque um livro" className="searchbar" />
-              <button className="btn" type="submit"><FontAwesomeIcon icon={faSearch} /></button>
+              <button className="btn" type="submit">
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
             </form>
-         </div>
+          </div>
         </div>
 
         <div className="col-12 col-md-6">
           <div className="registration">
             <h2>Cadastre-se</h2>
-            <input placeholder="Email" value={email} onChange={(e) => set_email(e.currentTarget.value)} />
-            <input placeholder="CPF" value={cpf} onChange={(e) => set_cpf(e.currentTarget.value)} />
-            <input placeholder="Endereço" value={address} onChange={(e) => set_address(e.currentTarget.value)} />
-            <input placeholder="Telefone" value={phone} onChange={(e) => set_phone(e.currentTarget.value)} />
-            <div className="d-flex">
-              <input className="ml-2" placeholder="Usuário" value={username} onChange={(e) => set_username(e.currentTarget.value)} />
-              <input placeholder="Senha" value={password} onChange={(e) => set_password(e.currentTarget.value)} />
-            </div>
-            <button className="registration" onClick={register}>cadastrar-se</button>
+            <input
+              placeholder="Email"
+              value={signUpEmail}
+              onChange={(e) => setsignUpEmail(e.currentTarget.value)}
+            />
+            <input
+              placeholder="CPF"
+              value={cpf}
+              onChange={(e) => setCPF(e.currentTarget.value)}
+            />
+            <input
+              placeholder="Endereço"
+              value={address}
+              onChange={(e) => setAddress(e.currentTarget.value)}
+            />
+            <input
+              placeholder="Telefone"
+              value={phoneNumber}
+              onChange={(e) => setPhone(e.currentTarget.value)}
+            />
+            <input
+              placeholder="Senha"
+              value={signUpPassword}
+              onChange={(e) => setSignUpPassword(e.currentTarget.value)}
+              type="password"
+            />
+            <button className="registration" onClick={signUp}>
+              cadastrar-se
+            </button>
 
             <h2>Login</h2>
-            <input placeholder="Usuário" value={username} onChange={(e) => set_username(e.currentTarget.value)} />
-            <input placeholder="Senha" value={password} onChange={(e) => set_password(e.currentTarget.value)} />
-            <button className="registration" onClick={login}>login</button>
+            <input
+              placeholder="Email"
+              value={signInEmail}
+              onChange={(e) => setSignInEmail(e.currentTarget.value)}
+            />
+            <input
+              placeholder="Senha"
+              value={signInPassword}
+              onChange={(e) => setSignInPassword(e.currentTarget.value)}
+              type="password"
+            />
+            <button className="registration" onClick={signIn}>
+              login
+            </button>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

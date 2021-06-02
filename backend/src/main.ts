@@ -16,6 +16,7 @@ import fbpKey = require("./fbpkey.json");
 import { default as authRouter } from "./routes/auth";
 import { default as userRouter } from "./routes/users";
 import { default as booksRouter } from "./routes/books";
+import { default as groupsRouter } from "./routes/groups";
 import { getDatabaseRef } from "./database";
 
 // MARK: Initialize Firebase
@@ -56,6 +57,7 @@ app.get("/", async (_, res: express.Response<IPingResponse>) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/books", booksRouter);
+app.use("/groups", groupsRouter);
 // MARK: Swagger
 const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

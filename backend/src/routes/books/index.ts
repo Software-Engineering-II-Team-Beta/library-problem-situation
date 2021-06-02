@@ -12,10 +12,11 @@ import { validatewNewBook, validateBookDetails } from "./validators";
 import { getDatabaseRef } from "../../database";
 
 import { IError } from "../../types";
+import { authMiddleware, getCurrentUserId } from "../auth";
 const router = express.Router();
 
 // MARK: Methods
-interface ICreateBookRequestBody {
+export interface ICreateBookRequestBody {
 	titulo: string;
 	autor: string;
 	id_dono: string;
@@ -29,7 +30,7 @@ export interface ICreateBookSuccesfulResponse {
 
 export type ICreateBookResponseBody = IError | ICreateBookSuccesfulResponse;
 
-router.post("/", async (req: express.Request<{}, ICreateBookResponseBody, ICreateBookRequestBody>, res: express.Response<ICreateBookResponseBody>) => {
+router.post("/", authMiddleware, async (req: express.Request<{}, ICreateBookResponseBody, ICreateBookRequestBody>, res: express.Response<ICreateBookResponseBody>) => {
 	const newBook: NewBook = {
 		titulo: req.body.titulo,
 		autor: req.body.autor,
@@ -80,7 +81,7 @@ interface IEditBookRequestBody {
 
 type IEditBookResponseBody = IError | Book;
 
-router.patch("/:bookId", async (req: express.Request<IEditBookRequestParams, IEditBookResponseBody, IEditBookRequestBody>, res: express.Response<IEditBookResponseBody>) => {
+router.patch("/:bookId", authMiddleware, async (req: express.Request<IEditBookRequestParams, IEditBookResponseBody, IEditBookRequestBody>, res: express.Response<IEditBookResponseBody>) => {
 	const editBook: EditBook = {
 		titulo: req.body.titulo,
 		autor: req.body.autor,
@@ -99,10 +100,15 @@ router.patch("/:bookId", async (req: express.Request<IEditBookRequestParams, IEd
 	try {
 		const ref = getDatabaseRef("books");
 		const booksRef = ref.child(req.params.bookId);
-
-		await booksRef.update(editBook);
-
-		res.send((await booksRef.get()).val());
+		const userId = await getCurrentUserId(req);
+		if((await (booksRef.child("id_dono").equalTo(userId)).get()).exists()){
+			await booksRef.update(editBook);
+			res.send((await booksRef.get()).val());
+		}
+		else{
+			res.status(401).send({error: "O livro não é seu."});
+		}
+		
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
@@ -114,16 +120,105 @@ interface IEditBookRequestParams {
 
 type IDeleteBookResponseBody = IError;
 
-router.delete("/:bookId", async (req: express.Request<IEditBookRequestParams, IDeleteBookResponseBody, {}>, res: express.Response<IDeleteBookResponseBody>) => {
+router.delete("/:bookId", authMiddleware, async (req: express.Request<IEditBookRequestParams, IDeleteBookResponseBody, {}>, res: express.Response<IDeleteBookResponseBody>) => {
 	try {
 		const ref = getDatabaseRef("books");
-		const bookssRef = ref.child(req.params.bookId);
-
-		await bookssRef.update({ deletedAt: new Date() });
+		const userId = await getCurrentUserId(req);
+		const booksRef = ref.child(req.params.bookId);
+		if((await (booksRef.child("id_dono").equalTo(userId)).get()).exists()){
+			await booksRef.update({ deletedAt: new Date() });
+		}
+		else{
+			res.status(401).send({error: "O livro não é seu."});
+		}
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
 });
+
+
+
+router.get("/", async (req: express.Request, res: express.Response) => {
+	try {
+		const ref = getDatabaseRef("books");
+
+		const query  = (await ref.get());
+
+		const books: any[] = [];
+
+		query.forEach((book) => {
+			books.push(book);
+		});
+
+	
+		if (!query) {
+			throw new Error("Não foi possível encontrar os livros.");
+		}
+
+
+		res.status(200).json(books);
+
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+router.get("/my", authMiddleware, async (req: express.Request, res: express.Response) => {
+	try {
+		const ref = getDatabaseRef("books");
+		const userId = await getCurrentUserId(req);
+		const query  = (await (ref.orderByChild("id_dono").equalTo(userId)).get());
+
+		const books: any[] = [];
+
+		query.forEach((book) => {
+			books.push(book);
+		})
+
+	
+		if (!query) {
+			throw new Error("Não foi possível encontrar os livros.");
+		}
+
+
+		res.status(200).json(books);
+
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+router.get("/:bookId", async (req: express.Request, res: express.Response) => {
+	try {
+		const ref = getDatabaseRef("books");
+
+		const booksRef = ref.child(req.params.bookId);
+
+		const query  = (await booksRef.get());
+
+		const books: any[] = [];
+
+		query.forEach((book) => {
+			books.push(book);
+		})
+
+	
+		if (!query) {
+			throw new Error("Não foi possível encontrar os livros.");
+		}
+
+
+		res.status(200).json(query);
+
+	} catch (err) {
+		res.status(500).send({ error: err.message || inspect(err) });
+	}
+});
+
+
+
+
+
 
 export default router;
 

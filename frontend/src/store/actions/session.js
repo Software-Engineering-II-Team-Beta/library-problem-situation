@@ -1,7 +1,7 @@
-export function setLoggedIn(isLoggedIn){
+export function setToken(token){
   return {
-    type: 'SET_LOGGED_IN',
-    isLoggedIn,
+    type: 'SET_TOKEN',
+    token,
   }
 }
 

@@ -1,15 +1,25 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux';
+
+import * as api from '../../services/api/index';
 
 function Dashboard() {
-  const user = useSelector(state => state.session.user)
+
+  const user = useSelector((state) => state.session.user);
+
   const history = useHistory("");
 
   // event of logout button
-  const handleLogout = () => {
-    history.push('/');
+  async function handleLogout() {
+    try {
+      const data = await api.auth._logout();
+      console.log(data);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const h2style = {
@@ -53,7 +63,7 @@ function Dashboard() {
         <div className="profilepicture">
           <div style={greycircle}></div>
         </div>
-        <h2 style={h2style}> <div style={greencircle} /> {user.name ? user.name : 'Jane Doe'}</h2>
+        <h2 style={h2style}> <div style={greencircle} /> {user.email ? user.email : 'janedoe@fake.com'}</h2>
         <h3 style={h3style} >Meus livros</h3>
         <div style={separator} />
         <h3 style={h3style} >Empréstimos</h3>
