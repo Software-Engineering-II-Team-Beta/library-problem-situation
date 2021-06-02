@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import * as api from "../../services/api/index";
 
 //components
-import CardBook from '../../components/CardBook'
+import CardBook from "../../components/CardBook";
 
 function RecentsBooks() {
   const token = useSelector((state) => state.session.token);
@@ -61,33 +61,20 @@ function RecentsBooks() {
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.currentTarget.value)}
                 />
-                <button
-                  className="btn"
-                  type="submit"
-                  onClick={handleSearch}
-                >
+                <button className="btn" type="submit" onClick={handleSearch}>
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </form>
-            </div>
-            <div className="">
-              {books !== undefined &&
-                books.map((book, index) => (
-                  <div key={index}>
-                    <span> {book.titulo} </span>
-                    <span> {book.autor} </span>
-                  </div>
-                ))}
             </div>
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-12 col-md-12 mt-5">
-            <div className="list-books">
-              <CardBook/>
-              <CardBook/>
-            </div>
+          <div className="list-books">
+            {books !== undefined &&
+              books.map((book, index) => <CardBook key={index} book={book} />)}
+          </div>
         </div>
       </div>
     </div>
