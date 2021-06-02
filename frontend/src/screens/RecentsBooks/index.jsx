@@ -16,10 +16,13 @@ function RecentsBooks() {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const { data } = await api.book._getBooks({ token: token });
+      try {
+        const { data } = await api.book._getBooks({ token: token });
 
-      setBooks(data);
-      console.log(data);
+        setBooks(data);
+      } catch(e) {
+        console.log(e);
+      }      
     };
 
     fetchBooks();
@@ -70,7 +73,7 @@ function RecentsBooks() {
         <div className="col-12 col-md-12 mt-5">
           <div className="list-books">
             {books !== undefined &&
-              books.map((book, index) => <CardBook key={index} book={book} />)}
+              books.map((book, index) => <CardBook key={index} book={book} showButtons={false} />)}
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ function Dashboard() {
     display: "flex",
     paddingLeft: "10%",
     color: "white",
-    marginTop: "20px"
+    marginTop: "20px",
   };
 
   const astyle = {
@@ -70,17 +70,37 @@ function Dashboard() {
         <h2 style={h2style}>
           {" "}
           <div style={greencircle} />{" "}
-          {user.email ? user.email : 'janedoe@fake.com'}
+          {user.email ? user.email : "janedoe@fake.com"}
         </h2>
-        <h3 style={h3style} ><a href="/dashboard/books" style={astyle}>Meus livros</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/books" style={astyle}>
+            Meus livros
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/loans" style={astyle}>Empréstimos</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/loans" style={astyle}>
+            Empréstimos
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/reviews" style={astyle}>Avaliações</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/reviews" style={astyle}>
+            Avaliações
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/groups" style={astyle}>Meus Grupos</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/groups" style={astyle}>
+            Meus Grupos
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/tags" style={astyle}>Etiquetas</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/tags" style={astyle}>
+            Etiquetas
+          </a>
+        </h3>
         {/* <input type="button" onClick={handleLogout} value="Logout" /> */}
       </div>
       <div

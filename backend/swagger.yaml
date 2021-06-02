@@ -14,6 +14,8 @@ tags:
     description: "Métodos para Gerenciamento de Usuários"
   - name: "Books"
     description: "Métodos para Gerenciamento de Livros"
+  - name: "Groups"
+    description: "Métodos para Gerenciamento de Grupos"
 schemes:
   - "http"
 paths:
@@ -38,6 +40,12 @@ paths:
       tags:
         - "Auth"
       summary: "Retorna o usuário que você está logado"
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       produces:
         - "application/json"
       responses:
@@ -86,6 +94,12 @@ paths:
       tags:
         - "Auth"
       summary: "Logout do sistema"
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       produces:
         - "application/json"
       responses:
@@ -103,13 +117,6 @@ paths:
       summary: "Retorna Users do Sistema"
       produces:
         - "application/json"
-      parameters:
-        - name: "Paginação"
-          in: "body"
-          description: "Paginação que será aplicada na lista de Users"
-          required: true
-          schema:
-            $ref: "#/definitions/Pagination"
       responses:
         "200":
           description: "Users Disponíveis"
@@ -184,6 +191,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/UserDetails"
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: "Usuário editado com sucesso"
@@ -205,6 +217,11 @@ paths:
           description: "Id do usuário que será deletado"
           required: true
           type: "string"
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: "Usuário deletado com sucesso"
@@ -220,13 +237,6 @@ paths:
       summary: "Retorna lista de livros do sistema"
       produces:
         - "application/json"
-      parameters:
-        - name: "Paginação"
-          in: "body"
-          description: "Paginação que será aplicada na lista de livros"
-          required: true
-          schema:
-            $ref: "#/definitions/Pagination"
       responses:
         "200":
           description: "Livros disponíveis"
@@ -251,6 +261,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/BookDetails"
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: "Livro criado com sucesso"
@@ -261,6 +276,31 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /books/my:
+    get:
+      tags:
+        - "Books"
+      summary: "Retorna lista de livros do usuário"
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Livros registrados pelo usuário"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Book"
+        "500":
+          description: "Algum erro na busca dos livros"
+          schema:
+            $ref: "#/definitions/Error"
+            
   /books/{bookId}:
     get:
       tags:
@@ -301,6 +341,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/BookDetails"
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: "Livro editado com sucesso"
@@ -322,11 +367,45 @@ paths:
           description: "Id do livro que será deletado"
           required: true
           type: "string"
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: "Livro deletado com sucesso"
         "500":
           description: "Algum erro na deleção do livro"
+          schema:
+            $ref: "#/definitions/Error"
+
+  /groups:
+    post:
+      tags:
+        - "Groups"
+      summary: "Criar um grupo no sistema"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Grupo"
+          in: "body"
+          description: "Informações do novo grupo que será criado"
+          required: true
+          schema:
+            $ref: "#/definitions/GroupDetails"
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: "Grupo criado com sucesso"
+          schema:
+            $ref: "#/definitions/GroupWToken"
+        "500":
+          description: "Algum erro na criação do grupo"
           schema:
             $ref: "#/definitions/Error"
 
@@ -409,3 +488,28 @@ definitions:
         type: "string"
       id_dono:
         type: "string"
+  GroupDetails:
+    type: "object"
+    properties:
+      nome:
+        type: "string"
+  Group:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      nome:
+        type: "string"
+      membros:
+        type: "object"
+        properties:
+          userId:
+            type: "string"
+  GroupWToken:
+    type: "object"
+    properties:
+      group:
+          $ref: "#/definitions/Group"
+      token:
+        type: "string"
+      
