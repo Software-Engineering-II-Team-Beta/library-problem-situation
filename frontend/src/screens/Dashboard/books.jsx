@@ -137,11 +137,11 @@ function Books() {
                         books.map((book, index) => <CardBook key={index} book={book} />)} */}
 
                     <div className="content">
-                        <div className="list-books">
-                        {books !== undefined &&
-                            books.map((book, index) => (
-                            <CardBook key={index} book={book} setBooks={setBooks} showButtons={true}/>
-                            ))}
+                        <div className="list-books" style={{height: "auto"}}>
+                            {books !== undefined &&
+                                books.map((book, index) => (
+                                    <CardBook key={index} book={book} setBooks={setBooks} showButtons={true} />
+                                ))}
                         </div>
                     </div>
                 </div>

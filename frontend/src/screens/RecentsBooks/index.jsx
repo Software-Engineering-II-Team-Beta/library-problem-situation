@@ -13,6 +13,7 @@ function RecentsBooks() {
   const token = useSelector((state) => state.session.token);
   const [searchValue, setSearchValue] = useState("");
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState(books);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -20,6 +21,7 @@ function RecentsBooks() {
         const { data } = await api.book._getBooks({ token: token });
 
         setBooks(data);
+        setFilteredBooks(data);
       } catch(e) {
         console.log(e);
       }      
@@ -37,13 +39,13 @@ function RecentsBooks() {
   const handleSearch = (e) => {
     e.preventDefault();
 
-    const filteredBooks = books.filter((book) => {
+    const filteredBooks = !searchValue.trim() ? books : books.filter((book) => {
       const bookName = format(book.titulo);
       const searchText = format(searchValue);
       return bookName.indexOf(searchText) > -1;
     });
 
-    setBooks(filteredBooks);
+    setFilteredBooks(filteredBooks);
   };
 
   return (
@@ -72,8 +74,8 @@ function RecentsBooks() {
       <div className="row">
         <div className="col-12 col-md-12 mt-2">
           <div className="list-books">
-            {books !== undefined &&
-              books.map((book, index) => <CardBook key={index} book={book} showButtons={false} />)}
+            {filteredBooks !== undefined &&
+              filteredBooks.map((book, index) => <CardBook key={index} book={book} showButtons={false} />)}
           </div>
         </div>
       </div>
