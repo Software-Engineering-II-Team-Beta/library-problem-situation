@@ -5,22 +5,9 @@ import {useSelector} from "react-redux";
 
 import * as api from "../../services/api/index";
 
-import CardBook from "../../components/CardBook";
-
 function Dashboard() {
   const history = useHistory("");
   const {user, token} = useSelector((state) => state.session);
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      const {data} = await api.book._my({token: token});
-
-      setBooks(data);
-    };
-
-    fetchBooks();
-  }, []);
 
   // event of logout button
   async function handleLogout() {
@@ -102,16 +89,16 @@ function Dashboard() {
           flexDirection: "column",
           boxSizing: "border-box",
           alignItems: "center",
-          justifyContent: "center",
+          // justifyContent: "center",
           width: "100%",
-          height: "10%",
+          height: "100%",
         }}
       >
         <h2
           style={{
             color: "black",
             width: "85%",
-            marginBottom: 0,
+            marginTop: '3%',
           }}
         >
           Dashboard
@@ -124,10 +111,8 @@ function Dashboard() {
             height: "5px",
           }}
         />
-        {books !== undefined &&
-          books.map((book, index) => <CardBook key={index} book={book} />)}
       </div>
-    </div >
+    </div>
   );
 }
 

@@ -9,8 +9,9 @@ import Dashboard from './screens/Dashboard';
 import Home from './screens/Home';
 import RecentsBooks from './screens/RecentsBooks';
 
-import { Provider } from 'react-redux'
-import store from './store'
+import {Provider} from 'react-redux';
+import store from './store';
+import Books from './screens/Dashboard/books';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <div className="content">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route path="/dashboard/books" component={Books} />
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/recents" component={RecentsBooks} />
               </Switch>
