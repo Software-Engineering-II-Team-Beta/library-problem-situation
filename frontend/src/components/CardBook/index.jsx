@@ -3,7 +3,7 @@ import './style.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPencilAlt, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 import * as api from "../../services/api/index";
 

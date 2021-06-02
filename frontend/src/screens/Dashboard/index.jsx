@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useHistory} from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 import * as api from "../../services/api/index";
 
-import CardBook from "../../components/CardBook";
-
 function Dashboard() {
   const history = useHistory("");
-  const { user, token } = useSelector((state) => state.session);
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    try {
-      const fetchBooks = async () => {
-        const { data } = await api.book._my({ token: token });
-
-        setBooks(data);
-      };
-
-      fetchBooks();
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+  const {user, token} = useSelector((state) => state.session);
 
   // event of logout button
   async function handleLogout() {
@@ -126,7 +109,7 @@ function Dashboard() {
           flexDirection: "column",
           boxSizing: "border-box",
           alignItems: "center",
-          justifyContent: "center",
+          // justifyContent: "center",
           width: "100%",
           height: "100vh",
         }}
@@ -149,14 +132,6 @@ function Dashboard() {
             height: "5px",
           }}
         />
-        <div className="content">
-          <div className="list-books">
-          {books !== undefined &&
-            books.map((book, index) => (
-              <CardBook key={index} book={book} setBooks={setBooks} showButtons={true}/>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

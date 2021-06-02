@@ -82,7 +82,7 @@ function Home() {
 
         console.log(signInData);
 
-        history.push("/dashboard");
+        history.push("/dashboard/books");
       } catch (error) {
         console.log(error);
       }
@@ -104,7 +104,7 @@ function Home() {
         setUser(user);
         setToken(token);
 
-        history.push("/dashboard");
+        history.push("/dashboard/books");
       } catch (error) {
         console.log(error);
         // if (error.response) {
