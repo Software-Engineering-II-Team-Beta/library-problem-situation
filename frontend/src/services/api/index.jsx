@@ -7,7 +7,7 @@ import * as book from './books';
 export {auth, users, book};
 
 export const client = axios.create({
-  baseURL: "http://localhost:8005/",
+  baseURL: "http://localhost:8000/",
 });
 
 export async function ping() {
