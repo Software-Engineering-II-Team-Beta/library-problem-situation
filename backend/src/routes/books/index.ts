@@ -166,20 +166,14 @@ router.get("/my", authMiddleware, async (req: express.Request, res: express.Resp
 	try {
 		const ref = getDatabaseRef("books");
 		const userId = await getCurrentUserId(req);
-		const query  = (await (ref.orderByChild("id_dono").equalTo(userId)).get());
-
-		const books: any[] = [];
-
-		query.forEach((book) => {
-			books.push(book);
-		})
-
-	
+		const query = (await ref.orderByChild("id_dono").equalTo(userId).get()).val();
 		if (!query) {
 			throw new Error("Não foi possível encontrar os livros.");
 		}
-
-
+		const books: any[] = [];
+		for (const [key, value] of Object.entries(query)) {
+			books.push(value);
+		}
 		res.status(200).json(books);
 
 	} catch (err) {
