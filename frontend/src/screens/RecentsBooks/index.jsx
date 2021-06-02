@@ -16,10 +16,7 @@ function RecentsBooks() {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const { data } = await api.book._getBooks({
-        token: token,
-        numberPerPage: 0,
-      });
+      const { data } = await api.book._getBooks({ token: token });
 
       setBooks(data);
       console.log(data);
