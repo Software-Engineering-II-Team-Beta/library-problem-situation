@@ -124,18 +124,19 @@ router.delete("/:bookId", authMiddleware, async (req: express.Request<IEditBookR
 		const ref = getDatabaseRef("books");
 		const userId = await getCurrentUserId(req);
 		const booksRef = ref.child(req.params.bookId);
-		if((await (booksRef.child("id_dono").equalTo(userId)).get()).exists()){
+
+		const bookOwnerId = (await (booksRef.child("id_dono").get())).val();
+
+		if (bookOwnerId === userId) {
 			await booksRef.update({ deletedAt: new Date() });
-		}
-		else{
+			res.sendStatus(200);
+		} else {
 			res.status(401).send({error: "O livro não é seu."});
 		}
 	} catch (err) {
 		res.status(500).send({ error: err.message || inspect(err) });
 	}
 });
-
-
 
 router.get("/", async (req: express.Request, res: express.Response) => {
 	try {
@@ -214,5 +215,3 @@ router.get("/:bookId", async (req: express.Request, res: express.Response) => {
 
 
 export default router;
-
-
