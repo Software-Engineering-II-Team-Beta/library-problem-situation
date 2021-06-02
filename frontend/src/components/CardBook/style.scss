@@ -1,5 +1,21 @@
 .cardbook{
     width: 100%;
-    background: #D9E0E6;
+    background: #03A9F4;
     border-radius: 15px;
+    position: relative;
+    color: #fff;
+
+    .button-redirect{
+        background-color: #fff;
+        display: block;
+        width: 40px;
+        height: 40px;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 100%;
+        text-align: center;
+        svg{
+            margin-top: 10px;
+        }
+    }
 }

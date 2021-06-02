@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import "./style.scss";
+import React, {useState} from 'react';
+import './style.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faPencilAlt} from '@fortawesome/free-solid-svg-icons'
 
 import { useSelector } from "react-redux";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import * as api from "../../services/api/index";
 
-function CardBook({ book, setBooks }) {
+function CardBook({ book, showButtons, setBooks }) {
   const { token } = useSelector((state) => state.session.token);
 
   const handleDelete = () => {
@@ -29,14 +29,14 @@ function CardBook({ book, setBooks }) {
 
   return (
     <div className="row cardbook mb-3">
-      <div className="col-12 col-md-12 mt-5">
-        <h4 className="mt-0">{book.titulo}</h4>
-        <hr />
-      </div>
-
-      <div className="col-12 col-md-12 mt-5">
-        <p className="mt-0">{book.autor} </p>
-      </div>
+        <div className="col-12 col-md-12 mt-5">
+            <h4 className="mt-0">{book.titulo}</h4><p className="mt-0">{book.autor} </p>
+            <hr />
+        </div>
+        {showButtons !== false ? 
+          <a href="http://" className="position-absolute button-redirect" title="editar livro"><FontAwesomeIcon icon={faPencilAlt} /></a>
+          : ''
+        }
     </div>
   );
 }
