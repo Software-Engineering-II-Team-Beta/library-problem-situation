@@ -20,31 +20,15 @@ function RecentsBooks() {
                 <button className="btn" type="submit"><FontAwesomeIcon icon={faSearch} /></button>
               </form>
             </div>
-
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12 col-md-12 mt-5">
             <div className="list-books">
               <CardBook/>
               <CardBook/>
             </div>
-          </div>
-        </div>
-
-        <div className="col-12 col-md-6 mt-5">
-          <div className="recents-books--sidebar">
-            <div className="recents-books--title-categories mt-4">
-              <h3>Categorias</h3>  
-            </div> 
-
-            <div className="recents-books--categories mt-4">
-              <span>Categoria 1</span> 
-              <span>Categoria 2</span> 
-              <span>Categoria 3</span> 
-              <span>Categoria 4</span> 
-              <span>Categoria 5</span>
-              <span>Categoria 6</span>
-              <span>Categoria 7</span>
-            </div>
-           
-          </div>
         </div>
       </div>
     </div >
