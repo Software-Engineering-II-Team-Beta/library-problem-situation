@@ -46,10 +46,9 @@ router.post("/", authMiddleware, async (req: express.Request<{}, ICreateBookResp
 
 	try {
 		const ref = getDatabaseRef("books");
-		const bookRef = ref.push();
 
 
-		const newBookRef = bookRef.push();
+		const newBookRef = ref.push();
 
 		if (newBookRef.key === null) {
 			throw new Error("Chave de novo livro não foi criada");
