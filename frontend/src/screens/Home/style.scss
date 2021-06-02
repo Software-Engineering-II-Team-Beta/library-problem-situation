@@ -28,7 +28,7 @@
     }
 
     .content-home{
-        margin-top: 150px;
+        margin-top: 80px;
         .title-home{
             color: #197097;
             font-size: 42px;
@@ -37,7 +37,20 @@
         }
     
         .banner{
-            width: 100%;
+            width: 80%;
+            margin: auto;
+            display: block;
+        }
+
+        .home-search{
+            background: #197097;
+            margin: auto;
+            display: block;
+            width: 70%;
+            color: #fff;
+            svg{
+                margin-right: 10px;
+            }
         }
     }
     

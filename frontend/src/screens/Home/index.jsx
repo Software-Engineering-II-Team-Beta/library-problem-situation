@@ -122,14 +122,11 @@ function Home() {
       <div className="row">
         <div className="col-12 col-md-6">
           <div className="content-home">
-            <h1 className="mt-5 title-home">Sistema de empréstimo - MATA 63</h1>
+            <h1 className="mt-3 title-home">Sistema de empréstimo - MATA 63</h1>
             <img className="banner" src={Banner} alt="" />
-            <form action="" method="get" className="d-flex form-search--home">
-              <input placeholder="Busque um livro" className="searchbar" />
-              <button className="btn" type="submit">
-                <FontAwesomeIcon icon={faSearch} />
-              </button>
-            </form>
+              <a className="mt-3 btn home-search" type="submit" href="/recents">
+                <FontAwesomeIcon icon={faSearch} /> Buscar livros recentes 
+              </a>
           </div>
         </div>
 

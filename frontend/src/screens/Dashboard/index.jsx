@@ -128,7 +128,7 @@ function Dashboard() {
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
-          height: "10%",
+          height: "100vh",
         }}
       >
         <h2
@@ -136,6 +136,7 @@ function Dashboard() {
             color: "black",
             width: "85%",
             marginBottom: 0,
+            marginTop: 50
           }}
         >
           Dashboard
@@ -148,10 +149,14 @@ function Dashboard() {
             height: "5px",
           }}
         />
-        {books !== undefined &&
-          books.map((book, index) => (
-            <CardBook key={index} book={book} setBooks={setBooks} />
-          ))}
+        <div className="content">
+          <div className="list-books">
+          {books !== undefined &&
+            books.map((book, index) => (
+              <CardBook key={index} book={book} setBooks={setBooks} showButtons={true}/>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

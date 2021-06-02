@@ -70,7 +70,7 @@ function RecentsBooks() {
         </div>
       </div>
       <div className="row">
-        <div className="col-12 col-md-12 mt-5">
+        <div className="col-12 col-md-12 mt-2">
           <div className="list-books">
             {books !== undefined &&
               books.map((book, index) => <CardBook key={index} book={book} showButtons={false} />)}
