@@ -114,7 +114,7 @@ function Books() {
                         marginTop: '3%',
                     }}
                 >
-                    Dashboard
+                    Livros
         </h2>
                 <div
                     style={{
