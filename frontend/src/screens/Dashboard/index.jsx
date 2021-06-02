@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {useHistory} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 import * as api from "../../services/api/index";
 
@@ -9,17 +9,21 @@ import CardBook from "../../components/CardBook";
 
 function Dashboard() {
   const history = useHistory("");
-  const {user, token} = useSelector((state) => state.session);
+  const { user, token } = useSelector((state) => state.session);
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      const {data} = await api.book._my({token: token});
+    try {
+      const fetchBooks = async () => {
+        const { data } = await api.book._my({ token: token });
 
-      setBooks(data);
-    };
+        setBooks(data);
+      };
 
-    fetchBooks();
+      fetchBooks();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   // event of logout button
@@ -66,7 +70,7 @@ function Dashboard() {
     display: "flex",
     paddingLeft: "10%",
     color: "white",
-    marginTop: "20px"
+    marginTop: "20px",
   };
 
   const astyle = {
@@ -83,17 +87,37 @@ function Dashboard() {
         <h2 style={h2style}>
           {" "}
           <div style={greencircle} />{" "}
-          {user.email ? user.email : 'janedoe@fake.com'}
+          {user.email ? user.email : "janedoe@fake.com"}
         </h2>
-        <h3 style={h3style} ><a href="/dashboard/books" style={astyle}>Meus livros</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/books" style={astyle}>
+            Meus livros
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/loans" style={astyle}>Empréstimos</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/loans" style={astyle}>
+            Empréstimos
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/reviews" style={astyle}>Avaliações</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/reviews" style={astyle}>
+            Avaliações
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/groups" style={astyle}>Meus Grupos</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/groups" style={astyle}>
+            Meus Grupos
+          </a>
+        </h3>
         <div style={separator} />
-        <h3 style={h3style} ><a href="/dashboard/tags" style={astyle}>Etiquetas</a></h3>
+        <h3 style={h3style}>
+          <a href="/dashboard/tags" style={astyle}>
+            Etiquetas
+          </a>
+        </h3>
         {/* <input type="button" onClick={handleLogout} value="Logout" /> */}
       </div>
       <div
@@ -125,9 +149,11 @@ function Dashboard() {
           }}
         />
         {books !== undefined &&
-          books.map((book, index) => <CardBook key={index} book={book} />)}
+          books.map((book, index) => (
+            <CardBook key={index} book={book} setBooks={setBooks} />
+          ))}
       </div>
-    </div >
+    </div>
   );
 }
 

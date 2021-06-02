@@ -39,6 +39,7 @@ export async function _patchBook(bookId, data) {
   );
 };
 
-export async function _deleteBook(bookId) {
-  return await client.delete(`/books/${bookId}`, {});
+export async function _deleteBook(data) {
+  client.defaults.headers.common['Authorization'] = `Basic ${data.token}`
+  return await client.delete(`/books/${data.bookId}`, {});
 };

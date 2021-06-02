@@ -16,10 +16,13 @@ function RecentsBooks() {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const { data } = await api.book._getBooks({ token: token });
+      try {
+        const { data } = await api.book._getBooks({ token: token });
 
-      setBooks(data);
-      console.log(data);
+        setBooks(data);
+      } catch(e) {
+        console.log(e);
+      }      
     };
 
     fetchBooks();
