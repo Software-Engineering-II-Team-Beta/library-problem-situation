@@ -9,7 +9,13 @@ export async function _getBooks(data) {
   );
 };
 
+export async function _my(data) {
+  client.defaults.headers.common['Authorization'] = `Basic ${data.token}`
+  return await client.get("/books/my");
+};
+
 export async function _createBook(data) {
+  client.defaults.headers.common['Authorization'] = `Basic ${data.token}`
   return await client.post("/books",
     {
       titulo: data.titulo,

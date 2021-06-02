@@ -15,7 +15,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
-  const [signUpEmail, setsignUpEmail] = useState("");
+  const [signUpEmail, setSignUpEmail] = useState("");
   const [cpf, setCPF] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhone] = useState("");
@@ -137,9 +137,9 @@ function Home() {
           <div className="registration">
             <h2>Cadastre-se</h2>
             <input
-              placeholder="Email"
+              placeholder="E-mail"
               value={signUpEmail}
-              onChange={(e) => setsignUpEmail(e.currentTarget.value)}
+              onChange={(e) => setSignUpEmail(e.currentTarget.value)}
             />
             <input
               placeholder="CPF"
@@ -168,7 +168,7 @@ function Home() {
 
             <h2>Login</h2>
             <input
-              placeholder="Email"
+              placeholder="E-mail"
               value={signInEmail}
               onChange={(e) => setSignInEmail(e.currentTarget.value)}
             />
